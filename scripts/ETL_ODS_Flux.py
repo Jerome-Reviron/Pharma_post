@@ -5,8 +5,8 @@ from app.models import Flux
 def run():
 
     # Charger le fichier CSV dans un DataFrame Pandas
-    df = pd.read_csv("data/flux-total-dep.csv", delimiter=",", encoding="ISO-8859-1")
-    print(df.columns)
+    df = pd.read_csv("data/flux-total-dep.csv", delimiter=",", encoding="ISO-8859-1", keep_default_na=False)
+    # print(df.columns)
 
     print(f"Chargement du fichier CSV terminé. Nombre de lignes connues : {len(df)}")
 
@@ -17,6 +17,7 @@ def run():
     # Utiliser une compréhension de liste avec to_dict
     Fluxs = [
         Flux(
+            id=index + 1,
             code_region=row['code_region'],
             libelle_region=row['libelle_region'],
             code_departement=row['code_departement'],

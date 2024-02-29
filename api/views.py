@@ -15,20 +15,22 @@ class BaseAPI(APIView):
     serializer_class = None
     default_t = 'D_TYPE_VACCIN'
 
-    def get(self, request, pk=None):
-        t = request.GET.get('t', None)
-        if t:
-            try:
-                data = eval(t).objects.all()
-                count = data.count()
-            except AttributeError:
-                return Response(data={'error': f'Model {t} not found.'}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            t = 'D_TYPE_VACCIN'
-            data = D_TYPE_VACCIN.objects.all()
-            count = data.count()
+    def get(self, request, pk=None, *args, **kwargs):
+        t = kwargs.get('t', self.default_t)
+        model = getattr(self, f'model_{t}', None)
 
-        serializer = eval(f"{t}_Serializer")(data=data, many=True)
+        if not model:
+            return Response(data={'error': f'Model {t} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        data = model.objects.all()
+        count = data.count()
+
+        serializer = getattr(self, f'serializer_{t}', None)
+
+        if not serializer:
+            return Response(data={'error': f'Serializer for model {t} not found.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = serializer(data=data, many=True)
         serializer.is_valid()
 
         result = {
@@ -41,30 +43,30 @@ class BaseAPI(APIView):
 
 class API_Operational_Data_Store_Flux(BaseAPI):
     """API for Flux model."""
-    model = Flux
-    serializer_class = Flux_Serializer
+    model_Flux = Flux
+    serializer_Flux = Flux_Serializer
     default_t = 'Flux'
 
 class API_Datawarehouse_D_TYPE_VACCIN(BaseAPI):
     """API for D_TYPE_VACCIN model."""
-    model = D_TYPE_VACCIN
-    serializer_class = D_TYPE_VACCIN_Serializer
+    model_D_TYPE_VACCIN = D_TYPE_VACCIN
+    serializer_D_TYPE_VACCIN = D_TYPE_VACCIN_Serializer
     default_t = 'D_TYPE_VACCIN'
 
 class API_Datawarehouse_D_DATE(BaseAPI):
     """API for D_DATE model."""
-    model = D_DATE
-    serializer_class = D_DATE_Serializer
+    model_D_DATE = D_DATE
+    serializer_D_DATE = D_DATE_Serializer
     default_t = 'D_DATE'
 
 class API_Datawarehouse_D_LOCATION(BaseAPI):
     """API for D_LOCATION model."""
-    model = D_LOCATION
-    serializer_class = D_LOCATION_Serializer
+    model_D_LOCATION = D_LOCATION
+    serializer_D_LOCATION = D_LOCATION_Serializer
     default_t = 'D_LOCATION'
 
 class API_Datawarehouse_F_FLUX(BaseAPI):
     """API for F_FLUX model."""
-    model = F_FLUX
-    serializer_class = F_FLUX_Serializer
+    model_F_FLUX = F_FLUX
+    serializer_F_FLUX = F_FLUX_Serializer
     default_t = 'F_FLUX'

@@ -7,3 +7,22 @@ body {
     overflow: hidden;
 }
 
+.Info_projet, .Info_table{
+    margin-top:8%;
+}
+
+.parent {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+table {
+    --bs-table-bg: transparent !important;
+    min-height: 400px;
+    max-height: 100%;
+    background-color: inherit;
+    filter: blur(5%);
+    min-block-size: auto;
+}

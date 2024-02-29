@@ -17,8 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app.views import index
+from app.views import ETL_ODS_Flux
+from app.views import ETL_DWH_D_DATE
+from app.views import ETL_DWH_D_LOCATION
+from app.views import ETL_DWH_D_TYPE_VACCIN
+from app.views import ETL_DWH_F_FLUX
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
+    path('ETL_ODS_Flux/', ETL_ODS_Flux),
+    path('ETL_DWH_D_DATE/', ETL_DWH_D_DATE),
+    path('ETL_DWH_D_LOCATION/', ETL_DWH_D_LOCATION),
+    path('ETL_DWH_D_TYPE_VACCIN/', ETL_DWH_D_TYPE_VACCIN),
+    path('ETL_DWH_F_FLUX/', ETL_DWH_F_FLUX),
 ]

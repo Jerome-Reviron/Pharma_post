@@ -1,14 +1,14 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="{% static 'styles.css' %}">
-        <title>Pharma_post</title>
+        <title>ETL_ODS_Flux</title>
     </head>
-    <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <body>
         <nav class="navbar navbar-dark bg-dark fixed-top">
             <div class="container-fluid">
                 <img src="{% static 'images/01-Logo-Walden-Color.png' %}" width="60" height="60">
@@ -24,7 +24,7 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8000">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="http://localhost:8000/admin/">Admin</a>
@@ -46,23 +46,60 @@
                 </div>
             </div>
         </nav>
-        <div class="container Info_projet">
-            <h1 class="mt-5">PROJET ENTREPRISE : PHARMA PILOT</h1>
-            <p class="lead">Pharma Post, une société de livraison dédiée à la santé, nous a contacté afin de créer une application qui aidera à anticiper une potentielle prochaine pandémie de la COVID.</p>
-            <p class="lead">Le besoin est de pouvoir restituer un nombre de doses nécessaire par département.</p>
-            <p class="lead">Source : Explorateur de données : <a href="https://explore.data.gouv.fr/fr/tableau?url=https%3A%2F%2Fwww.data.gouv.fr%2Ffr%2Fdatasets%2Fr%2Fe9de3d17-e95b-4259-a203-50cdbb53ed92" target="_blank">data.gouv.fr</a></p>
-            <hr>
-            <p class="lead">Afin de répondre à ce besoin, nous devons créer une application qui affiche les doses de vaccins, par département, selon le numéro de semaine à n-3.</p>
-            <p class="lead">En tant que développeur python, vous devrez prendre en charge ce besoin. Votre mission sera de :</p>
-            <ul>
-                <li>Créer une application et la publier sur Github</li>
-                <li>Stocker toutes les données provenant de data.gouv dans une base de données dans une modélisation en étoile.</li>
-                <li>Créer un script qui alimente la table ODS et les tables de l’entrepôt de données.</li>
-                <li>Restituer les données de chaque table via une API. Seules les requêtes GET sont autorisées via un Token.</li>
-                <li>Rédiger des tests cases pour chaque table du DWH. Au moins 5 tests devront être rédigés.</li>
-                <li>Publier dans discord (via api et dans la conversation Python 2), le nombre de vaccin nécessaire pour le Puy de dôme, selon la semaine de publication du message. Votre message devra comporter le lien de votre répertoire GITHUB.</li>
-            </ul>
+        <div class="container Info_table">
+            <div class="parent">
+                <h1 class="Titre">ETL_ODS_Flux</h1>
+                <p class="Nb_lignes">Nombre de lignes dans app_flux : {{ fluxs.paginator.count }}</p>
+            </div>        
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>code_region</th>
+                        <th>libelle_region</th>
+                        <th>code_departement</th>
+                        <th>libelle_departement</th>
+                        <th>date_fin_semaine</th>
+                        <th>type_de_vaccin</th>
+                        <th>nb_ucd</th>
+                        <th>nb_doses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flux in fluxs %}
+                    <tr>
+                        <td>{{ flux.id }}</td>
+                        <td>{{ flux.code_region }}</td>
+                        <td>{{ flux.libelle_region }}</td>
+                        <td>{{ flux.code_departement }}</td>
+                        <td>{{ flux.libelle_departement }}</td>
+                        <td>{{ flux.date_fin_semaine }}</td>
+                        <td>{{ flux.type_de_vaccin }}</td>
+                        <td>{{ flux.nb_ucd }}</td>
+                        <td>{{ flux.nb_doses }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Ajouter la pagination -->
+            <div class="d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if fluxs.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page=1">&laquo;&laquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ fluxs.previous_page_number }}">{{ fluxs.previous_page_number }}</a></li>
+                    {% endif %}
+
+                    <li class="page-item active"><span class="page-link">{{ fluxs.number }}</span></li>
+
+                    {% if fluxs.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ fluxs.next_page_number }}">{{ fluxs.next_page_number }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ fluxs.paginator.num_pages }}">&raquo;&raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
+

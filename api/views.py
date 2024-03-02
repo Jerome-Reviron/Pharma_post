@@ -11,22 +11,35 @@ from api.serializers import Flux_Serializer, D_TYPE_VACCIN_Serializer, D_DATE_Se
 
 class BaseAPI(APIView):
     """Base class for API views."""
-    model = None
-    serializer_class = None
+    model_dict = {
+        'Flux': Flux,
+        'D_TYPE_VACCIN': D_TYPE_VACCIN,
+        'D_DATE': D_DATE,
+        'D_LOCATION': D_LOCATION,
+        'F_FLUX': F_FLUX,
+    }
+
+    serializer_dict = {
+        'Flux': Flux_Serializer,
+        'D_TYPE_VACCIN': D_TYPE_VACCIN_Serializer,
+        'D_DATE': D_DATE_Serializer,
+        'D_LOCATION': D_LOCATION_Serializer,
+        'F_FLUX': F_FLUX_Serializer,
+    }
+
     default_t = 'D_TYPE_VACCIN'
 
-    def get(self, request, pk=None, *args, **kwargs):
-        t = kwargs.get('t', self.default_t)
-        model = getattr(self, f'model_{t}', None)
+    def get(self, request, *args, **kwargs):
+        t = request.GET.get('t', self.default_t)
 
+        model = self.model_dict.get(t)
         if not model:
             return Response(data={'error': f'Model {t} not found.'}, status=status.HTTP_400_BAD_REQUEST)
 
         data = model.objects.all()
         count = data.count()
 
-        serializer = getattr(self, f'serializer_{t}', None)
-
+        serializer = self.serializer_dict.get(t)
         if not serializer:
             return Response(data={'error': f'Serializer for model {t} not found.'}, status=status.HTTP_400_BAD_REQUEST)
 

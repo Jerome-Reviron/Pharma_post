@@ -7,4 +7,5 @@ urlpatterns = [
     path('DWH/D_DATE/', API_Datawarehouse_D_DATE.as_view()),
     path('DWH/D_LOCATION/', API_Datawarehouse_D_LOCATION.as_view()),
     path('DWH/F_FLUX/', API_Datawarehouse_F_FLUX.as_view()),
+    path('DWH_ALL/', API_Datawarehouse_D_TYPE_VACCIN.as_view()),
 ]

@@ -87,16 +87,17 @@ class F_FLUX(models.Model):
         D_LOCATION (ForeignKey): Clé étrangère vers D_LOCATION.
         nb_ucd (float): Nombre d'unités de consommation.
         nb_doses (float): Nombre de doses.
-
-    Meta:
-        unique_together (tuple): Contrainte d'unicité pour plusieurs champs.
     """
     PK_F_FLUX = models.CharField(max_length=100, primary_key=True)
-    D_TYPE_VACCIN = models.ForeignKey('D_TYPE_VACCIN', on_delete=models.CASCADE, db_column='D_TYPE_VACCIN')
-    D_DATE = models.ForeignKey('D_DATE', on_delete=models.CASCADE, db_column='D_DATE')
-    D_LOCATION = models.ForeignKey('D_LOCATION', on_delete=models.CASCADE, db_column='D_LOCATION')
+    D_TYPE_VACCIN = models.ForeignKey(D_TYPE_VACCIN, on_delete=models.CASCADE, db_column='D_TYPE_VACCIN')
+    D_DATE = models.ForeignKey(D_DATE, on_delete=models.CASCADE, db_column='D_DATE')
+    D_LOCATION = models.ForeignKey(D_LOCATION, on_delete=models.CASCADE, db_column='D_LOCATION')
     nb_ucd = models.FloatField(blank=True, null=True, default=None)
     nb_doses = models.FloatField(blank=True, null=True, default=None)
 
-    class Meta:
-        unique_together = ('PK_F_FLUX', 'D_TYPE_VACCIN', 'D_DATE', 'D_LOCATION')
+    def save(self, *args, **kwargs):
+        """
+        Surcharge de la méthode save pour concaténer les champs et créer la clé primaire.
+        """
+        self.PK_F_FLUX = f"{self.D_TYPE_VACCIN.vaccinlabel}§{self.D_DATE.date_fin_semaine}§{self.D_LOCATION.code_region_code_departement}"
+        super().save(*args, **kwargs)

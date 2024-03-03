@@ -66,7 +66,6 @@ class API_Operational_Data_Store_Flux(BaseAPI):
         else:
             search_param = request.GET.get('t')
             if search_param:
-                # Effectuer une recherche précise sur le champ id
                 data = Flux.objects.filter(id=search_param)
             else:
                 data = Flux.objects.all()
@@ -143,7 +142,6 @@ class API_Datawarehouse_D_TYPE_VACCIN(BaseAPI):
         else:
             search_param = request.GET.get('t')
             if search_param:
-                # Effectuer une recherche précise sur le champ vaccinlabel
                 data = D_TYPE_VACCIN.objects.filter(vaccinlabel=search_param)
             else:
                 data = D_TYPE_VACCIN.objects.all()
@@ -220,7 +218,6 @@ class API_Datawarehouse_D_DATE(BaseAPI):
         else:
             search_param = request.GET.get('t')
             if search_param:
-                # Effectuer une recherche précise sur le champ date_fin_semaine
                 data = D_DATE.objects.filter(date_fin_semaine=search_param)
             else:
                 data = D_DATE.objects.all()
@@ -285,7 +282,7 @@ class API_Datawarehouse_D_DATE(BaseAPI):
             D_DATE.objects.all().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-class API_Datawarehouse_D_LOCATION(BaseAPI):
+class API_Datawarehouse_D_LOCATION(APIView):
     model_D_LOCATION = D_LOCATION
     serializer_D_LOCATION = D_LOCATION_Serializer
     default_t = 'D_LOCATION'
@@ -297,7 +294,6 @@ class API_Datawarehouse_D_LOCATION(BaseAPI):
         else:
             search_param = request.GET.get('t')
             if search_param:
-                # Effectuer une recherche précise sur le champ code_region_code_departement
                 data = D_LOCATION.objects.filter(code_region_code_departement=search_param)
             else:
                 data = D_LOCATION.objects.all()
@@ -324,11 +320,14 @@ class API_Datawarehouse_D_LOCATION(BaseAPI):
 
     def put(self, request, code_region_code_departement=None):
         try:
+            # Supprimez l'objet existant s'il existe
             d_location = D_LOCATION.objects.get(code_region_code_departement=code_region_code_departement)
+            d_location.delete()
         except D_LOCATION.DoesNotExist:
-            return Response({'error': 'D_LOCATION not found'}, status=status.HTTP_404_NOT_FOUND)
+            pass  # L'objet n'existe pas, rien à supprimer
 
-        serializer = D_LOCATION_Serializer(d_location, data=request.data)
+        # Créez un nouvel objet avec les données mises à jour
+        serializer = D_LOCATION_Serializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -342,13 +341,25 @@ class API_Datawarehouse_D_LOCATION(BaseAPI):
         except D_LOCATION.DoesNotExist:
             return Response({'error': 'D_LOCATION not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = D_LOCATION_Serializer(d_location, data=request.data, partial=True)
+        # Champs autorisés pour la modification
+        allowed_fields = {'libelle_region', 'libelle_departement'}
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        # Vérifier si l'utilisateur ne modifie que les champs autorisés
+        user_fields = set(request.data.keys())
+        invalid_fields = user_fields - allowed_fields
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if invalid_fields:
+            return Response({'error': f'Invalid fields for PATCH: {", ".join(invalid_fields)}'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        # Mettez à jour les champs autorisés individuellement
+        for field in allowed_fields:
+            setattr(d_location, field, request.data.get(field, getattr(d_location, field)))
+
+        d_location.save()
+
+        serializer = D_LOCATION_Serializer(d_location)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request, code_region_code_departement=None):
         if code_region_code_departement is not None:
@@ -374,7 +385,6 @@ class API_Datawarehouse_F_FLUX(BaseAPI):
         else:
             search_param = request.GET.get('t')
             if search_param:
-                # Effectuer une recherche précise sur le champ PK_F_FLUX
                 data = F_FLUX.objects.filter(PK_F_FLUX=search_param)
             else:
                 data = F_FLUX.objects.all()

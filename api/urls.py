@@ -9,7 +9,7 @@ urlpatterns = [
     path('DWH/D_DATE/', API_Datawarehouse_D_DATE.as_view(), name='api_datawarehouse_d_date'),
     path('DWH/D_DATE/<str:date_fin_semaine>/', API_Datawarehouse_D_DATE.as_view(), name='api_datawarehouse_d_date_detail'),
     path('DWH/D_LOCATION/', API_Datawarehouse_D_LOCATION.as_view(), name='api_datawarehouse_d_location'),
-    path('DWH/D_LOCATION/<str:code_region_code_departement>/', API_Datawarehouse_D_LOCATION.as_view(), name='api_datawarehouse__location_detail'),
+    path('DWH/D_LOCATION/<str:code_region_code_departement>/', API_Datawarehouse_D_LOCATION.as_view(), name='api_datawarehouse_d_location_detail'),
     path('DWH/F_FLUX/', API_Datawarehouse_F_FLUX.as_view(), name='api_datawarehouse_f_flux'),
     path('DWH/F_FLUX/<str:PK_F_FLUX>/', API_Datawarehouse_F_FLUX.as_view(), name='api_datawarehouse_f_flux_detail'),
     path('DWH_ALL/', API_Datawarehouse_D_TYPE_VACCIN.as_view()),

@@ -15,7 +15,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from api import urls as api_urls
 from app.views import index
 from app.views import ETL_ODS_Flux
 from app.views import ETL_DWH_D_DATE
@@ -27,6 +28,7 @@ from app.views import ETL_DWH_F_FLUX
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/', include(api_urls)),
     path('', index),
     path('ETL_ODS_Flux/', ETL_ODS_Flux),
     path('ETL_DWH_D_DATE/', ETL_DWH_D_DATE),

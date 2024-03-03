@@ -76,7 +76,6 @@ class D_LOCATION(models.Model):
         self.code_region_code_departement = f"{self.code_region}-{self.code_departement}"
         super().save(*args, **kwargs)
 
-
 class F_FLUX(models.Model):
     """
     Modèle de données pour les flux de vaccins.
@@ -93,9 +92,9 @@ class F_FLUX(models.Model):
         unique_together (tuple): Contrainte d'unicité pour plusieurs champs.
     """
     PK_F_FLUX = models.CharField(max_length=100, primary_key=True)
-    D_TYPE_VACCIN = models.ForeignKey('D_TYPE_VACCIN', on_delete=models.CASCADE)
-    D_DATE = models.ForeignKey('D_DATE', on_delete=models.CASCADE)
-    D_LOCATION = models.ForeignKey('D_LOCATION', on_delete=models.CASCADE)
+    D_TYPE_VACCIN = models.ForeignKey('D_TYPE_VACCIN', on_delete=models.CASCADE, db_column='D_TYPE_VACCIN')
+    D_DATE = models.ForeignKey('D_DATE', on_delete=models.CASCADE, db_column='D_DATE')
+    D_LOCATION = models.ForeignKey('D_LOCATION', on_delete=models.CASCADE, db_column='D_LOCATION')
     nb_ucd = models.FloatField(blank=True, null=True, default=None)
     nb_doses = models.FloatField(blank=True, null=True, default=None)
 

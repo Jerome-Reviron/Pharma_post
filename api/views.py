@@ -373,15 +373,14 @@ class API_Datawarehouse_D_LOCATION(APIView):
             D_LOCATION.objects.all().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-class API_Datawarehouse_F_FLUX(BaseAPI):
+class API_Datawarehouse_F_FLUX(APIView):
     model_F_FLUX = F_FLUX
     serializer_F_FLUX = F_FLUX_Serializer
-    default_t = 'F_FLUX'
     lookup_field = 'PK_F_FLUX'
 
-    def get(self, request, pk=None):
-        if pk is not None:
-            data = F_FLUX.objects.filter(PK_F_FLUX=pk)
+    def get(self, request, PK_F_FLUX=None):
+        if PK_F_FLUX is not None:
+            data = F_FLUX.objects.filter(PK_F_FLUX=PK_F_FLUX)
         else:
             search_param = request.GET.get('t')
             if search_param:
@@ -389,17 +388,15 @@ class API_Datawarehouse_F_FLUX(BaseAPI):
             else:
                 data = F_FLUX.objects.all()
 
-        serializer = F_FLUX_Serializer(data=data, many=True)
-        serializer.is_valid()
-
+        serializer = F_FLUX_Serializer(data, many=True)
         result = {
             'count': data.count(),
             'data': serializer.data
         }
 
-        return Response(data=result, status=status.HTTP_200_OK)
+        return Response(result, status=status.HTTP_200_OK)
 
-    def post(self, request, pk=None):
+    def post(self, request, PK_F_FLUX=None):
         data = request.data
         serializer = F_FLUX_Serializer(data=data)
 
@@ -407,15 +404,16 @@ class API_Datawarehouse_F_FLUX(BaseAPI):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, pk=None):
+    def put(self, request, PK_F_FLUX=None):
         try:
-            flux = F_FLUX.objects.get(PK_F_FLUX=pk)
+            f_flux = F_FLUX.objects.get(PK_F_FLUX=PK_F_FLUX)
+            f_flux.delete()
         except F_FLUX.DoesNotExist:
-            return Response({'error': 'Flux not found'}, status=status.HTTP_404_NOT_FOUND)
+            pass
 
-        serializer = F_FLUX_Serializer(flux, data=request.data)
+        serializer = F_FLUX_Serializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -423,28 +421,37 @@ class API_Datawarehouse_F_FLUX(BaseAPI):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def patch(self, request, pk=None):
+    def patch(self, request, PK_F_FLUX=None):
         try:
-            flux = F_FLUX.objects.get(PK_F_FLUX=pk)
+            f_flux = F_FLUX.objects.get(PK_F_FLUX=PK_F_FLUX)
         except F_FLUX.DoesNotExist:
-            return Response({'error': 'Flux not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'F_FLUX not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        serializer = F_FLUX_Serializer(flux, data=request.data, partial=True)
+        allowed_fields = {'nb_ucd', 'nb_doses'}
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
+        user_fields = set(request.data.keys())
+        invalid_fields = user_fields - allowed_fields
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if invalid_fields:
+            return Response({'error': f'Invalid fields for PATCH: {", ".join(invalid_fields)}'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, pk=None):
-        if pk is not None:
-            data = F_FLUX.objects.filter(PK_F_FLUX=pk)
+        for field in allowed_fields:
+            setattr(f_flux, field, request.data.get(field, getattr(f_flux, field)))
+
+        f_flux.save()
+
+        serializer = F_FLUX_Serializer(f_flux)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, PK_F_FLUX=None):
+        if PK_F_FLUX is not None:
+            data = F_FLUX.objects.filter(PK_F_FLUX=PK_F_FLUX)
             if data.exists():
                 data.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             else:
-                return Response({"error": "Flux not found"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"error": "F_FLUX not found"}, status=status.HTTP_404_NOT_FOUND)
         else:
             F_FLUX.objects.all().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)

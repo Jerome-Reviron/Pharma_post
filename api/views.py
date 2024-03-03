@@ -372,10 +372,10 @@ class API_Datawarehouse_D_LOCATION(APIView):
         else:
             D_LOCATION.objects.all().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-
 class API_Datawarehouse_F_FLUX(APIView):
     model_F_FLUX = F_FLUX
     serializer_F_FLUX = F_FLUX_Serializer
+    default_t = 'F_FLUX'
     lookup_field = 'PK_F_FLUX'
 
     def get(self, request, PK_F_FLUX=None):
@@ -388,13 +388,16 @@ class API_Datawarehouse_F_FLUX(APIView):
             else:
                 data = F_FLUX.objects.all()
 
-        serializer = F_FLUX_Serializer(data, many=True)
+        # Ajoutez le paramètre data= ici
+        serializer = F_FLUX_Serializer(data=data, many=True)
+        serializer.is_valid()
+
         result = {
             'count': data.count(),
             'data': serializer.data
         }
 
-        return Response(result, status=status.HTTP_200_OK)
+        return Response(data=result, status=status.HTTP_200_OK)
 
     def post(self, request, PK_F_FLUX=None):
         data = request.data

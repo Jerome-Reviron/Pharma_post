@@ -86,7 +86,7 @@ def run():
 
         # Ajout de la colonne 'code_region_code_departement'
         df_flux = df_flux.copy()
-        df_flux['code_region_code_departement'] = df_flux['code_region'] + '_' + df_flux['code_departement']
+        df_flux['code_region_code_departement'] = df_flux['code_region'] + '-' + df_flux['code_departement']
 
         try:
             # Supprimer toutes les données de la table D_LOCATION avant l'insertion
@@ -150,12 +150,8 @@ def run():
                 d_date_instance.save()
                 d_location_instance.save()
 
-                # Créer la clé primaire concaténée
-                PK_F_FLUX = f"{row['type_de_vaccin']}_{row['date_fin_semaine']}_{row['code_region_code_departement']}"
-
                 # Créer l'objet F_FLUX avec les relations correctement sauvegardées
                 F_FLUX_instance = F_FLUX(
-                    PK_F_FLUX,
                     D_LOCATION=d_location_instance,
                     D_DATE=d_date_instance,
                     D_TYPE_VACCIN=d_type_vaccin_instance,
@@ -163,8 +159,11 @@ def run():
                     nb_doses=row['nb_doses']
                 )
 
+                # Enregistrer l'objet F_FLUX pour créer la clé primaire
+                F_FLUX_instance.save()
+
                 F_FLUX_objects.append(F_FLUX_instance)
-                print(f"PK_F_FLUX: {PK_F_FLUX}")
+                print(f"PK_F_FLUX: {F_FLUX_instance.PK_F_FLUX}")
 
                 # Mettre à jour le nombre total de lignes insérées
                 total_rows_inserted += 1

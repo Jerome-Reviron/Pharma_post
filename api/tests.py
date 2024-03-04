@@ -1,5 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIRequestFactory
+from datetime import datetime
 from api.views import API_Operational_Data_Store_Flux
 from api.views import API_Datawarehouse_D_TYPE_VACCIN
 from api.views import API_Datawarehouse_D_DATE
@@ -274,6 +275,7 @@ class TestD_LOCATION(TestCase):
         d_location_instance = D_LOCATION.objects.create(**self.test_d_location_data)
         updated_data = {
             "libelle_region": "Updated Region",
+            "libelle_departement": "Updated Departement",
         }
         request = self.factory.patch(f'/d_location/{d_location_instance.code_region_code_departement}/', updated_data, format='json')
         response = self.view_d_location(request, code_region_code_departement=d_location_instance.code_region_code_departement)
@@ -282,6 +284,7 @@ class TestD_LOCATION(TestCase):
 
         d_location_instance.refresh_from_db()
         self.assertEqual(d_location_instance.libelle_region, updated_data['libelle_region'])
+        self.assertEqual(d_location_instance.libelle_departement, updated_data['libelle_departement'])
 
     def test_partial_update_d_location(self):
         d_location_instance = D_LOCATION.objects.create(**self.test_d_location_data)
@@ -302,3 +305,123 @@ class TestD_LOCATION(TestCase):
 
         self.assertEqual(response.status_code, 204)
         self.assertFalse(D_LOCATION.objects.filter(code_region_code_departement=d_location_instance.code_region_code_departement).exists())
+
+class TestF_FLUX(TestCase):
+
+    def setUp(self):
+        self.factory = APIRequestFactory()
+        self.view_f_flux = API_Datawarehouse_F_FLUX.as_view()
+        
+        self.d_type_vaccin = D_TYPE_VACCIN.objects.create(vaccinlabel="AstraZeneca")
+        self.d_date = D_DATE.objects.create(date_fin_semaine="2021-06-13")
+        self.d_location = D_LOCATION.objects.create(
+            code_region=1,
+            code_departement="971",
+            libelle_region="GDP",
+            libelle_departement="Guadeloupe"
+        )
+
+        self.test_f_flux_data = {
+            "PK_F_FLUX": "AstraZeneca§2021-06-13§1-971",
+            "D_TYPE_VACCIN": self.d_type_vaccin,
+            "D_DATE": self.d_date,
+            "D_LOCATION": self.d_location,
+            "nb_ucd": 0.0,
+            "nb_doses": 0.0,
+        }
+
+    def test_get_f_flux_list(self):
+        F_FLUX.objects.create(**self.test_f_flux_data)
+
+        request = self.factory.get('/api/datawarehouse/f_flux/')
+        response = self.view_f_flux(request)
+        
+        self.assertEqual(response.status_code, 200)
+        data = response.data
+        self.assertEqual(data['count'], F_FLUX.objects.count())
+
+    def test_get_f_flux_detail(self):
+        f_flux_instance = F_FLUX.objects.create(**self.test_f_flux_data)
+        
+        request = self.factory.get(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/')
+        response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
+
+        self.assertEqual(response.status_code, 200)
+        data = response.data
+        self.assertEqual(data['data'][0]['PK_F_FLUX'], self.test_f_flux_data['PK_F_FLUX'])
+
+    def test_create_f_flux(self):
+        new_d_type_vaccin = D_TYPE_VACCIN.objects.create(vaccinlabel="NewAstraZeneca")
+        new_f_flux_data = {
+            "PK_F_FLUX": "NewAstraZeneca§2021-06-13§1-971",
+            "D_TYPE_VACCIN": new_d_type_vaccin.pk,
+            "D_DATE": datetime.strptime("2021-06-13", "%Y-%m-%d").date(),
+            "D_LOCATION": "1-971",
+            "nb_ucd": 1.0,
+            "nb_doses": 10.0,
+        }
+
+        request = self.factory.post('/api/datawarehouse/f_flux/', new_f_flux_data, format='json')
+        response = self.view_f_flux(request)
+
+        if response.status_code == 400:
+            print("Validation errors:", response.data)
+
+        self.assertEqual(response.status_code, 201)
+        data = response.data
+
+        self.assertEqual(data['PK_F_FLUX'], new_f_flux_data['PK_F_FLUX'])
+        self.assertEqual(data['D_TYPE_VACCIN'], new_f_flux_data['D_TYPE_VACCIN'])
+        self.assertEqual(data['D_DATE'], new_f_flux_data['D_DATE'])
+        self.assertEqual(data['D_LOCATION'], new_f_flux_data['D_LOCATION'])
+        self.assertEqual(data['nb_ucd'], new_f_flux_data['nb_ucd'])
+        self.assertEqual(data['nb_doses'], new_f_flux_data['nb_doses'])
+
+        # Vérifier que l'objet a bien été créé dans la base de données
+        f_flux_instance = F_FLUX.objects.get(PK_F_FLUX=data['PK_F_FLUX'])
+        self.assertIsNotNone(f_flux_instance)
+
+    def test_update_f_flux(self):
+        f_flux_instance = F_FLUX.objects.create(**self.test_f_flux_data)
+        updated_data = {
+            "nb_ucd": 400.0,
+            "nb_doses": 10.0,
+        }
+
+        request = self.factory.patch(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/', updated_data, format='json')
+        response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.data
+        self.assertEqual(data['nb_ucd'], updated_data['nb_ucd'])
+        self.assertEqual(data['nb_doses'], updated_data['nb_doses'])
+
+        f_flux_instance.refresh_from_db()
+        self.assertEqual(f_flux_instance.nb_ucd, updated_data['nb_ucd'])
+        self.assertEqual(f_flux_instance.nb_doses, updated_data['nb_doses'])
+
+    def test_partial_update_f_flux(self):
+        f_flux_instance = F_FLUX.objects.create(**self.test_f_flux_data)
+        updated_data = {
+            "nb_ucd": 1.0,
+        }
+
+        request = self.factory.patch(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/', updated_data, format='json')
+        response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
+
+        self.assertEqual(response.status_code, 200)
+
+        data = response.data
+        self.assertEqual(data['nb_ucd'], updated_data['nb_ucd'])
+
+        f_flux_instance.refresh_from_db()
+        self.assertEqual(f_flux_instance.nb_ucd, updated_data['nb_ucd'])
+
+    def test_delete_f_flux(self):
+        f_flux_instance = F_FLUX.objects.create(**self.test_f_flux_data)
+        request = self.factory.delete(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/')
+        response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
+
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(F_FLUX.objects.filter(PK_F_FLUX=f_flux_instance.PK_F_FLUX).exists())

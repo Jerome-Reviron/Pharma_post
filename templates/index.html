@@ -26,9 +26,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Accueil</a>
                         </li>
+                        {% if user_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8000/admin/">Admin</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tables
@@ -41,20 +43,24 @@
                                 <li><a class="dropdown-item" href="http://localhost:8000/ETL_DWH_F_FLUX">ETL_DWH_F_FLUX</a></li>
                             </ul>
                         </li>
+                        {% if user_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             API
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><a class="dropdown-item" href="http://localhost:8000/api/ODS/Flux">API_Operational_Data_Store_Flux</a></li>
+                                <li><a class="dropdown-item" href="http://localhost:8000/api/ODS/">API_Operational_Data_Store_Flux</a></li>
                                 <li><a class="dropdown-item" href="http://localhost:8000/api/DWH/D_DATE">API_Datawarehouse_D_DATE</a></li>
                                 <li><a class="dropdown-item" href="http://localhost:8000/api/DWH/D_LOCATION">API_Datawarehouse_D_LOCATION</a></li>
                                 <li><a class="dropdown-item" href="http://localhost:8000/api/DWH/D_TYPE_VACCIN">API_Datawarehouse_D_TYPE_VACCIN</a></li>
                                 <li><a class="dropdown-item" href="http://localhost:8000/api/DWH/F_FLUX">API_Datawarehouse_F_FLUX</a></li>
                             </ul>
                         </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:8000/api/login/">Login</a>
+                        </li>
                     </ul>
-                </div>
                 </div>
             </div>
         </nav>

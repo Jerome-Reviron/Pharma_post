@@ -4,7 +4,7 @@ import requests
 from app.models import Flux, D_DATE, D_TYPE_VACCIN, D_LOCATION, F_FLUX
 
 def index(request):
-    return render(request, 'index.html', {'user_authenticated': request.user.is_authenticated})
+    return render(request, 'index.html')
 
 def ETL_ODS_Flux(request):
     # Récupérer tous les Fluxs

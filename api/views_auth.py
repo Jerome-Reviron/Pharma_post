@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate
 from .serializers import LoginSerializer
 from django.http import JsonResponse
-from rest_framework.response import Response
+from django.contrib.auth import login
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -22,8 +22,8 @@ class LoginView(TemplateView):
         serializer = LoginSerializer(data=request.POST)
         if serializer.is_valid():
             user = serializer.validated_data['user']
+            login(request, user)
             token, created = Token.objects.get_or_create(user=user)
             return JsonResponse({'token': token.key}, status=status.HTTP_200_OK)
         else:
-            # En cas d'erreur de validation du sérialiseur, renvoyer une réponse JSON avec le statut 400
             return JsonResponse({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)

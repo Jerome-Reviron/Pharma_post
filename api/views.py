@@ -3,18 +3,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from app.models import Flux, D_TYPE_VACCIN, D_DATE, D_LOCATION, F_FLUX
 from api.serializers import Flux_Serializer, D_TYPE_VACCIN_Serializer, D_DATE_Serializer, D_LOCATION_Serializer, F_FLUX_Serializer
 
-class AuthMixin:
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-class BaseAPI(AuthMixin, APIView):
+class BaseAPI(APIView):
     """Base class for API views."""
+    permission_classes = [IsAuthenticated]
     model_dict = {
         'Flux': Flux,
         'D_TYPE_VACCIN': D_TYPE_VACCIN,

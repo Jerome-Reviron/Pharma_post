@@ -26,9 +26,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Accueil</a>
                         </li>
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8000/admin/">Admin</a>
                         </li>
+                        {% endif %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Tables
@@ -41,6 +43,7 @@
                                 <li><a class="dropdown-item" href="http://localhost:8000/ETL_DWH_F_FLUX">ETL_DWH_F_FLUX</a></li>
                             </ul>
                         </li>
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             API
@@ -53,6 +56,7 @@
                                 <li><a class="dropdown-item" href="http://localhost:8000/api/DWH/F_FLUX">API_Datawarehouse_F_FLUX</a></li>
                             </ul>
                         </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8000/api/login/">Login</a>
                         </li>

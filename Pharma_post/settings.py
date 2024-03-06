@@ -56,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'Pharma_post.urls'
@@ -137,10 +136,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DOMAIN = "http://localhost" 
-PORT = "8000"
-API_KEY  = "Token cb22ef4a0ca0b38497fc7717520f13282bb76806"
-
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
 ]
+
+# LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'login'

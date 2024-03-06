@@ -9,7 +9,11 @@ from rest_framework.permissions import IsAuthenticated
 from app.models import Flux, D_TYPE_VACCIN, D_DATE, D_LOCATION, F_FLUX
 from api.serializers import Flux_Serializer, D_TYPE_VACCIN_Serializer, D_DATE_Serializer, D_LOCATION_Serializer, F_FLUX_Serializer
 
-class BaseAPI(APIView):
+class AuthMixin:
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+class BaseAPI(AuthMixin, APIView):
     """Base class for API views."""
     model_dict = {
         'Flux': Flux,
@@ -282,7 +286,7 @@ class API_Datawarehouse_D_DATE(BaseAPI):
             D_DATE.objects.all().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-class API_Datawarehouse_D_LOCATION(APIView):
+class API_Datawarehouse_D_LOCATION(BaseAPI):
     model_D_LOCATION = D_LOCATION
     serializer_D_LOCATION = D_LOCATION_Serializer
     default_t = 'D_LOCATION'
@@ -372,7 +376,7 @@ class API_Datawarehouse_D_LOCATION(APIView):
         else:
             D_LOCATION.objects.all().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-class API_Datawarehouse_F_FLUX(APIView):
+class API_Datawarehouse_F_FLUX(BaseAPI):
     model_F_FLUX = F_FLUX
     serializer_F_FLUX = F_FLUX_Serializer
     default_t = 'F_FLUX'

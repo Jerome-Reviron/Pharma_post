@@ -35,4 +35,4 @@ urlpatterns = [
     path('ETL_DWH_D_LOCATION/', ETL_DWH_D_LOCATION),
     path('ETL_DWH_D_TYPE_VACCIN/', ETL_DWH_D_TYPE_VACCIN),
     path('ETL_DWH_F_FLUX/', ETL_DWH_F_FLUX),
-]
+    ]

@@ -57,9 +57,19 @@
                             </ul>
                         </li>
                         {% endif %}
+                        {% if not request.user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8000/api/login/">Login</a>
                         </li>
+                        {% endif %}
+                        {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost:8000/api/register/">Login</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

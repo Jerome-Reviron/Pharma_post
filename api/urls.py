@@ -1,5 +1,6 @@
 from django.urls import path
 from api.views_auth import LoginView
+from api.views_out import LogoutView
 from api.views import API_Operational_Data_Store_Flux, API_Datawarehouse_D_TYPE_VACCIN, API_Datawarehouse_D_DATE, API_Datawarehouse_D_LOCATION, API_Datawarehouse_F_FLUX
 
 urlpatterns = [
@@ -15,4 +16,5 @@ urlpatterns = [
     path('DWH/F_FLUX/<str:PK_F_FLUX>/', API_Datawarehouse_F_FLUX.as_view(), name='api_datawarehouse_f_flux_detail'),
     path('DWH_ALL/', API_Datawarehouse_D_TYPE_VACCIN.as_view()),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
     ]

@@ -1,21 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
     <title>Login Form</title>
 </head>
-<body>
-    <form id="login-form" onsubmit="submitForm()" method="POST">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-    
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    
-        <button type="submit">Login</button>
-    </form>
+<body class="Form">
+    <div class="ContR">
+        <i style="--clr: #e76f51;"></i>
+        <i style="--clr: #f4a261;"></i>
+        <i style="--clr: #e9c46a;"></i>
+        <form class="Log" id="login-form" onsubmit="submitForm()" method="POST">
+            {% csrf_token %}
+            <h2>Connexion Admin</h2>
+            <div class="inputBx">
+                <input type="text" id="username" name="username" placeholder="Username" required>
+            </div>
+            <div class="inputBx">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="inputBx">
+                <button type="submit">Valider</button>
+            </div>
+        </form>
+    </div>
 
     <script>
         function submitForm() {

@@ -77,15 +77,14 @@ def run():
 
     # Bulk create D_LOCATION records, handling possible duplicates
     with transaction.atomic():
-        # Filtrer les lignes où code_departement ne commence pas par un zéro
-        df_flux = df_flux[~df_flux['code_departement'].str.startswith('0')]
+        # Ajouter un "0" devant chaque code_departement d'un seul chiffre
+        df_flux['code_departement'] = df_flux['code_departement'].str.zfill(2)
 
         # Tri du DataFrame selon les colonnes spécifiées
         df_d_location_sorted = df_flux.sort_values(by=['code_region', 'code_departement'])
         # print("Colonnes de df_d_location_sorted:", df_d_location_sorted.columns)
 
         # Ajout de la colonne 'code_region_code_departement'
-        df_flux = df_flux.copy()
         df_flux['code_region_code_departement'] = df_flux['code_region'] + '-' + df_flux['code_departement']
 
         try:

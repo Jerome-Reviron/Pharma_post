@@ -1,6 +1,9 @@
 from django.test import TestCase
-from rest_framework.test import APIRequestFactory
+from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APIRequestFactory, force_authenticate
 from datetime import datetime
+
 from api.views import API_Operational_Data_Store_Flux
 from api.views import API_Datawarehouse_D_TYPE_VACCIN
 from api.views import API_Datawarehouse_D_DATE
@@ -32,8 +35,15 @@ class TestFlux(TestCase):
             nb_doses="3780"
         )
 
+        # Créez un utilisateur pour les tests
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        # Créez un jeton pour l'utilisateur
+        self.token = Token.objects.create(user=self.user)
+
     def test_get_flux_list(self):
         request = self.factory.get('/flux/')
+        # Forcez l'authentification pour cet utilisateur avec le jeton
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_flux(request)
         self.assertEqual(response.status_code, 200)
         data = response.data
@@ -41,6 +51,7 @@ class TestFlux(TestCase):
 
     def test_get_flux_detail(self):
         request = self.factory.get(f'/flux/{self.test_flux.id}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_flux(request, id=self.test_flux.id)
         self.assertEqual(response.status_code, 200)
         data = response.data
@@ -58,6 +69,7 @@ class TestFlux(TestCase):
             "nb_doses": "5000"
         }
         request = self.factory.post('/flux/', new_flux_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_flux(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(Flux.objects.count(), 2)
@@ -75,6 +87,7 @@ class TestFlux(TestCase):
             "nb_doses": "4000"
         }
         request = self.factory.put(f'/flux/{self.test_flux.id}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_flux(request, id=self.test_flux.id)
         response.render()
         print(response.content)
@@ -88,6 +101,7 @@ class TestFlux(TestCase):
             "libelle_region": "Updated Region",
         }
         request = self.factory.patch(f'/flux/{self.test_flux.id}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_flux(request, id=self.test_flux.id)
         self.assertEqual(response.status_code, 200)
         updated_flux = Flux.objects.get(id=self.test_flux.id)
@@ -95,6 +109,7 @@ class TestFlux(TestCase):
 
     def test_delete_flux(self):
         request = self.factory.delete(f'/flux/{self.test_flux.id}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_flux(request, id=self.test_flux.id)
         self.assertEqual(response.status_code, 204)
         self.assertFalse(Flux.objects.filter(id=self.test_flux.id).exists())
@@ -108,8 +123,14 @@ class TestD_TYPE_VACCIN(TestCase):
             vaccinlabel="AstraZeneca"
         )
 
+        # Créez un utilisateur pour les tests
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        # Créez un jeton pour l'utilisateur
+        self.token = Token.objects.create(user=self.user)
+
     def test_get_d_type_vaccin_list(self):
         request = self.factory.get('/d_type_vaccin/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_type_vaccin(request)
         self.assertEqual(response.status_code, 200)
         data = response.data
@@ -117,6 +138,7 @@ class TestD_TYPE_VACCIN(TestCase):
 
     def test_get_d_type_vaccin_detail(self):
         request = self.factory.get(f'/d_type_vaccin/{self.test_d_type_vaccin.vaccinlabel}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_type_vaccin(request, vaccinlabel=self.test_d_type_vaccin.vaccinlabel)
         self.assertEqual(response.status_code, 200)
         data = response.data
@@ -127,6 +149,7 @@ class TestD_TYPE_VACCIN(TestCase):
             "vaccinlabel": "Pfizer"
         }
         request = self.factory.post('/d_type_vaccin/', new_d_type_vaccin_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_type_vaccin(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(D_TYPE_VACCIN.objects.count(), 2)
@@ -136,6 +159,7 @@ class TestD_TYPE_VACCIN(TestCase):
             "vaccinlabel": "Updated AstraZeneca"
         }
         request = self.factory.put(f'/d_type_vaccin/{self.test_d_type_vaccin.vaccinlabel}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_type_vaccin(request, vaccinlabel=self.test_d_type_vaccin.vaccinlabel)
         self.assertEqual(response.status_code, 200)
         updated_d_type_vaccin = D_TYPE_VACCIN.objects.get(vaccinlabel=updated_data['vaccinlabel'])
@@ -146,6 +170,7 @@ class TestD_TYPE_VACCIN(TestCase):
             "vaccinlabel": "Updated AstraZeneca"
         }
         request = self.factory.patch(f'/d_type_vaccin/{self.test_d_type_vaccin.vaccinlabel}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_type_vaccin(request, vaccinlabel=self.test_d_type_vaccin.vaccinlabel)
         self.assertEqual(response.status_code, 200)
         updated_d_type_vaccin = D_TYPE_VACCIN.objects.get(vaccinlabel=updated_data['vaccinlabel'])
@@ -153,6 +178,7 @@ class TestD_TYPE_VACCIN(TestCase):
 
     def test_delete_d_type_vaccin(self):
         request = self.factory.delete(f'/d_type_vaccin/{self.test_d_type_vaccin.vaccinlabel}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_type_vaccin(request, vaccinlabel=self.test_d_type_vaccin.vaccinlabel)
         self.assertEqual(response.status_code, 204)
 
@@ -165,8 +191,14 @@ class TestD_DATE(TestCase):
             date_fin_semaine="2020-12-27"
         )
 
+        # Créez un utilisateur pour les tests
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        # Créez un jeton pour l'utilisateur
+        self.token = Token.objects.create(user=self.user)
+
     def test_get_d_date_list(self):
         request = self.factory.get('/d_date/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_date(request)
         self.assertEqual(response.status_code, 200)
         data = response.data
@@ -174,6 +206,7 @@ class TestD_DATE(TestCase):
 
     def test_get_d_date_detail(self):
         request = self.factory.get(f'/d_date/{self.test_d_date.date_fin_semaine}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_date(request, date_fin_semaine=self.test_d_date.date_fin_semaine)
         self.assertEqual(response.status_code, 200)
         data = response.data
@@ -184,6 +217,7 @@ class TestD_DATE(TestCase):
             "date_fin_semaine": "2021-01-03"
         }
         request = self.factory.post('/d_date/', new_d_date_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_date(request)
         self.assertEqual(response.status_code, 201)
         self.assertEqual(D_DATE.objects.count(), 2)
@@ -193,6 +227,7 @@ class TestD_DATE(TestCase):
             "date_fin_semaine": "2021-01-10"
         }
         request = self.factory.put(f'/d_date/{self.test_d_date.date_fin_semaine}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_date(request, date_fin_semaine=self.test_d_date.date_fin_semaine)
         self.assertEqual(response.status_code, 200)
         updated_d_date = D_DATE.objects.get(date_fin_semaine=updated_data['date_fin_semaine'])
@@ -203,6 +238,7 @@ class TestD_DATE(TestCase):
             "date_fin_semaine": "2021-01-17"
         }
         request = self.factory.patch(f'/d_date/{self.test_d_date.date_fin_semaine}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_date(request, date_fin_semaine=self.test_d_date.date_fin_semaine)
         self.assertEqual(response.status_code, 200)
         updated_d_date = D_DATE.objects.get(date_fin_semaine=updated_data['date_fin_semaine'])
@@ -210,6 +246,7 @@ class TestD_DATE(TestCase):
 
     def test_delete_d_date(self):
         request = self.factory.delete(f'/d_date/{self.test_d_date.date_fin_semaine}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_date(request, date_fin_semaine=self.test_d_date.date_fin_semaine)
         self.assertEqual(response.status_code, 204)
         self.assertFalse(D_DATE.objects.filter(date_fin_semaine=self.test_d_date.date_fin_semaine).exists())
@@ -226,10 +263,16 @@ class TestD_LOCATION(TestCase):
             "libelle_departement": "Guadeloupe"
         }
 
+        # Créez un utilisateur pour les tests
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        # Créez un jeton pour l'utilisateur
+        self.token = Token.objects.create(user=self.user)
+
     def test_get_d_location_list(self):
         D_LOCATION.objects.create(**self.test_d_location_data)
 
         request = self.factory.get('/d_location/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_location(request)
         
         self.assertEqual(response.status_code, 200)
@@ -240,6 +283,7 @@ class TestD_LOCATION(TestCase):
         d_location_instance = D_LOCATION.objects.create(**self.test_d_location_data)
         
         request = self.factory.get(f'/d_location/{d_location_instance.code_region_code_departement}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_location(request, code_region_code_departement=d_location_instance.code_region_code_departement)
 
         self.assertEqual(response.status_code, 200)
@@ -257,6 +301,7 @@ class TestD_LOCATION(TestCase):
         }
         # Envoyer la requête POST à la vue
         request = self.factory.post('/d_location/', new_d_location_data)
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_location(request)
 
         # Vérifier le code de statut et le contenu de la réponse
@@ -278,6 +323,7 @@ class TestD_LOCATION(TestCase):
             "libelle_departement": "Updated Departement",
         }
         request = self.factory.patch(f'/d_location/{d_location_instance.code_region_code_departement}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_location(request, code_region_code_departement=d_location_instance.code_region_code_departement)
 
         self.assertEqual(response.status_code, 200)
@@ -292,6 +338,7 @@ class TestD_LOCATION(TestCase):
             "libelle_region": "Updated Region",
         }
         request = self.factory.patch(f'/d_location/{d_location_instance.code_region_code_departement}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_location(request, code_region_code_departement=d_location_instance.code_region_code_departement)
 
         self.assertEqual(response.status_code, 200)
@@ -301,6 +348,7 @@ class TestD_LOCATION(TestCase):
     def test_delete_d_location(self):
         d_location_instance = D_LOCATION.objects.create(**self.test_d_location_data)
         request = self.factory.delete(f'/d_location/{d_location_instance.code_region_code_departement}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_d_location(request, code_region_code_departement=d_location_instance.code_region_code_departement)
 
         self.assertEqual(response.status_code, 204)
@@ -330,10 +378,16 @@ class TestF_FLUX(TestCase):
             "nb_doses": 0.0,
         }
 
+        # Créez un utilisateur pour les tests
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        # Créez un jeton pour l'utilisateur
+        self.token = Token.objects.create(user=self.user)
+
     def test_get_f_flux_list(self):
         F_FLUX.objects.create(**self.test_f_flux_data)
 
         request = self.factory.get('/api/datawarehouse/f_flux/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_f_flux(request)
         
         self.assertEqual(response.status_code, 200)
@@ -344,6 +398,7 @@ class TestF_FLUX(TestCase):
         f_flux_instance = F_FLUX.objects.create(**self.test_f_flux_data)
         
         request = self.factory.get(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
 
         self.assertEqual(response.status_code, 200)
@@ -362,6 +417,7 @@ class TestF_FLUX(TestCase):
         }
 
         request = self.factory.post('/api/datawarehouse/f_flux/', new_f_flux_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_f_flux(request)
 
         if response.status_code == 400:
@@ -389,6 +445,7 @@ class TestF_FLUX(TestCase):
         }
 
         request = self.factory.patch(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
 
         self.assertEqual(response.status_code, 200)
@@ -408,6 +465,7 @@ class TestF_FLUX(TestCase):
         }
 
         request = self.factory.patch(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/', updated_data, format='json')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
 
         self.assertEqual(response.status_code, 200)
@@ -421,6 +479,7 @@ class TestF_FLUX(TestCase):
     def test_delete_f_flux(self):
         f_flux_instance = F_FLUX.objects.create(**self.test_f_flux_data)
         request = self.factory.delete(f'/api/datawarehouse/f_flux/{f_flux_instance.PK_F_FLUX}/')
+        force_authenticate(request, user=self.user, token=self.token.key)
         response = self.view_f_flux(request, PK_F_FLUX=f_flux_instance.PK_F_FLUX)
 
         self.assertEqual(response.status_code, 204)

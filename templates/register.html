@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Register Form</title>
+</head>
+<body class="Form">
+    <div class="ContR">
+        <i style="--clr: #6135ff;"></i>
+        <i style="--clr: #3ab0b4;"></i>
+        <i style="--clr: #3ab44f;"></i>
+        <form class="Log" id="register-form" method="POST">
+            {% csrf_token %}
+            <h2>Inscription</h2>
+            <div class="inputBx">
+                <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required>
+            </div>
+            <div class="inputBx">
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="inputBx">
+                <input type="password" id="password1" name="password1" placeholder="Mot de passe" required>
+            </div>
+            <div class="inputBx">
+                <input type="password" id="password2" name="password2" placeholder="Confirmez le mot de passe" required>
+            </div>
+            <div class="inputBx">
+                <button class="Btn_register" type="submit">S'inscrire</button>
+            </div>
+        </form>
+    </div>
+    <a href="http://localhost:8000/" class="Btn_back2"><i class="fas fa-arrow-left"></i>Retour</a>
+
+    <script>
+        document.getElementById('register-form').onsubmit = function(event) {
+            event.preventDefault();
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var password1 = document.getElementById('password1').value;
+            var password2 = document.getElementById('password2').value;
+            var csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+            var data = new FormData();
+            data.append('username', username);
+            data.append('email', email);
+            data.append('password1', password1);
+            data.append('password2', password2);
+
+            fetch('http://localhost:8000/api/register/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf_token,
+                },
+                body: data,
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = 'http://localhost:8000/';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

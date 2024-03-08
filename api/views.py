@@ -49,6 +49,7 @@ class BaseAPI(APIView):
         result = {
             't': t,
             'count': count,
+            'nombre_de_lignes': count,
             'data': serializer.data,
         }
 

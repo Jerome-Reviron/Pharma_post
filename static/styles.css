@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
 body {
     margin: 0;
     padding: 0;
@@ -5,8 +8,15 @@ body {
     background-image: linear-gradient(246deg, rgba(234, 234, 234, 0.04) 0%, rgba(234, 234, 234, 0.04) 33.3%,rgba(69, 69, 69, 0.04) 33.3%, rgba(69, 69, 69, 0.04) 66.6%,rgba(189, 189, 189, 0.04) 66.6%, rgba(189, 189, 189, 0.04) 99.89999999999999%),linear-gradient(81deg, rgba(126, 126, 126, 0.05) 0%, rgba(126, 126, 126, 0.05) 33.3%,rgba(237, 237, 237, 0.05) 33.3%, rgba(237, 237, 237, 0.05) 66.6%,rgba(74, 74, 74, 0.05) 66.6%, rgba(74, 74, 74, 0.05) 99.89999999999999%),linear-gradient(14deg, rgba(3, 3, 3, 0.08) 0%, rgba(3, 3, 3, 0.08) 33.3%,rgba(156, 156, 156, 0.08) 33.3%, rgba(156, 156, 156, 0.08) 66.6%,rgba(199, 199, 199, 0.08) 66.6%, rgba(199, 199, 199, 0.08) 99.89999999999999%),linear-gradient(323deg, rgba(82, 82, 82, 0.06) 0%, rgba(82, 82, 82, 0.06) 33.3%,rgba(179, 179, 179, 0.06) 33.3%, rgba(179, 179, 179, 0.06) 66.6%,rgba(212, 212, 212, 0.06) 66.6%, rgba(212, 212, 212, 0.06) 99.89999999999999%),linear-gradient(32deg, rgba(70, 70, 70, 0.02) 0%, rgba(70, 70, 70, 0.02) 33.3%,rgba(166, 166, 166, 0.02) 33.3%, rgba(166, 166, 166, 0.02) 66.6%,rgba(53, 53, 53, 0.02) 66.6%, rgba(53, 53, 53, 0.02) 99.89999999999999%),linear-gradient(38deg, rgba(129, 129, 129, 0.09) 0%, rgba(129, 129, 129, 0.09) 33.3%,rgba(38, 38, 38, 0.09) 33.3%, rgba(38, 38, 38, 0.09) 66.6%,rgba(153, 153, 153, 0.09) 66.6%, rgba(153, 153, 153, 0.09) 99.89999999999999%),linear-gradient(63deg, rgba(51, 51, 51, 0.02) 0%, rgba(51, 51, 51, 0.02) 33.3%,rgba(12, 12, 12, 0.02) 33.3%, rgba(12, 12, 12, 0.02) 66.6%,rgba(158, 158, 158, 0.02) 66.6%, rgba(158, 158, 158, 0.02) 99.89999999999999%),linear-gradient(227deg, rgba(63, 63, 63, 0.03) 0%, rgba(63, 63, 63, 0.03) 33.3%,rgba(9, 9, 9, 0.03) 33.3%, rgba(9, 9, 9, 0.03) 66.6%,rgba(85, 85, 85, 0.03) 66.6%, rgba(85, 85, 85, 0.03) 99.89999999999999%),linear-gradient(103deg, rgba(247, 247, 247, 0.07) 0%, rgba(247, 247, 247, 0.07) 33.3%,rgba(93, 93, 93, 0.07) 33.3%, rgba(93, 93, 93, 0.07) 66.6%,rgba(208, 208, 208, 0.07) 66.6%, rgba(208, 208, 208, 0.07) 99%),linear-gradient(0deg, #0b91d7,#6efc29);
     background-repeat: no-repeat;
     overflow: hidden;
+    font-family: 'Crimson Text', serif;
+    font-weight: 700;
 }
 
+.navbar {
+    font-family: "Merriweather", serif;
+}
+
+/************************** Pages Html et tableau des tables ***************************/
 .Info_projet, .Info_table{
     margin-top:8%;
 }
@@ -25,4 +35,153 @@ table {
     background-color: inherit;
     filter: blur(5%);
     min-block-size: auto;
+}
+/************************** Formulaire connexion ***************************/
+
+.Form {
+    background-image: radial-gradient(circle at center center, rgba(33,33,33,0),rgb(33,33,33)),repeating-linear-gradient(135deg, rgb(33,33,33) 0px, rgb(33,33,33) 1px,transparent 1px, transparent 4px),repeating-linear-gradient(45deg, rgb(56,56,56) 0px, rgb(56,56,56) 5px,transparent 5px, transparent 6px),linear-gradient(90deg, rgb(33,33,33),rgb(33,33,33));
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Crimson Text', serif;
+}
+
+.ContR {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ContR i {
+    position: absolute;
+    inset: 0;
+    border: 2px solid #fff;
+    transition: 0.5s;
+}
+
+.ContR i:nth-child(1) {
+    border-radius: 47% 53% 38% 62% / 30% 67% 33% 70%;
+    animation: animate 6s linear infinite; 
+}
+
+.ContR i:nth-child(2) {
+    border-radius: 63% 37% 27% 73% / 67% 67% 33% 33%;
+    animation: animate2 4s linear infinite; 
+}
+
+.ContR i:nth-child(3) {
+    border-radius: 29% 71% 65% 35% / 44% 67% 33% 56%;
+    animation: animate2 10s reverse infinite; 
+}
+
+@keyframes animate {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes animate2 {
+    0%{
+        transform: rotate(360deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+
+.ContR:hover i{
+    border: 5px solid var(--clr);
+    filter: drop-shadow(0 0 20px var(--clr));
+}
+
+.ContR .Log {
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.ContR .Log h2 {
+    font-family: "Kode Mono", monospace;
+    font-size: 2em;
+    color:#fff;
+}
+
+.ContR .Log .inputBx {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+
+.ContR .Log .inputBx input,
+.ContR .Log .inputBx button {
+    position: relative;
+    width: 95%;
+    padding: 12px 10px;
+    margin: 10px 0px;
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 40px;
+    font-size: 1em;
+    color: #fff;
+    box-shadow: none;
+    outline: none;
+}
+
+.ContR .Log .inputBx input::placeholder {
+    color: rgba(255, 255, 255, 0.75)
+}
+
+.ContR .Log .inputBx .Btn_login {
+    background: linear-gradient(45deg, #ff357a, #fff172);
+    border: none;
+    cursor: pointer;
+    font-family: "Merriweather", serif;
+    font-size: 1em;
+    width: 50%;
+}
+
+.ContR .Log .inputBx .Btn_register {
+    background: linear-gradient(45deg, #6135ff, #3ab44f);
+    border: none;
+    cursor: pointer;
+    font-family: "Merriweather", serif;
+    font-size: 1em;
+    width: 50%;
+}
+
+.Btn_back1, .Btn_back2 {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: inline-block;
+    padding: 8px 12px;
+    background: linear-gradient(45deg, #ff357a, #fff172);
+    color: #ffffff;
+    border-radius: 40px;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-family: "Merriweather", serif;
+    font-size: 0.9em;
+}
+
+.Btn_back2 {
+    background: linear-gradient(45deg, #6135ff, #3ab44f);
+}
+
+.Btn_back1 i, .Btn_back2 i {
+    margin-right: 5px;
 }

@@ -54,23 +54,50 @@ async def kick(ctx, user : discord.User, *reason):
 	await ctx.guild.kick(user, reason = reason)
 	await ctx.send(f"{user} à été kick.")
 
-
+# Commande principale
 @bot.command()
-async def get_doses_sum(ctx):
-    requete = """
+async def quoi_de_neuf_docteur(ctx):
+    # Répondre à l'utilisateur
+    await ctx.send("Voulez-vous connaître une donnée?")
+
+    # Attendre une réponse de l'utilisateur
+    def check(m):
+        return m.author == ctx.author and m.channel == ctx.channel
+
+    try:
+        user_response = await bot.wait_for('message', check=check, timeout=60)
+    except TimeoutError:
+        await ctx.send("Délai expiré. Réessayez plus tard.")
+        return
+
+    # Traiter la réponse de l'utilisateur
+    await voici_la_piqure(ctx, user_response.content)
+
+# Fonction pour traiter la réponse de l'utilisateur
+async def voici_la_piqure(ctx, response):
+    # Supposons que la réponse soit le paramètre pour D_LOCATION
+    d_location = response
+
+    # Exemple de requête pour obtenir la somme des doses avec D_LOCATION dynamique
+    requete = f"""
     SELECT SUM(nb_doses) AS somme_nb_doses
     FROM app_f_flux
-    WHERE D_LOCATION = '84-63'
+    WHERE D_LOCATION = '{d_location}'
     AND strftime('%Y', D_DATE) = '2021'
     AND strftime('%W', D_DATE) = strftime('%W', 'now', 'localtime');
     """
 
+    # Exécution de la requête
     cursor.execute(requete)
 
+    # Récupération du résultat
     resultat = cursor.fetchone()
     somme_nb_doses = resultat[0] if resultat else None
 
-    await ctx.send(f"Somme des doses pour '84-63' en 2021 (semaine actuelle) : {somme_nb_doses}")
+    # Affichage du résultat dans le chat Discord
+    await ctx.send(f"Somme des doses pour '{d_location}' en 2021 (semaine actuelle) : {somme_nb_doses}")
+
+# Discord: !quoi_de_neuf_docteur
 
 @bot.event
 async def on_disconnect():

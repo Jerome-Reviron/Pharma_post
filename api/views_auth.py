@@ -7,12 +7,10 @@ from django.contrib.auth import login
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.permissions import AllowAny
 
 class LoginView(TemplateView):
     template_name = 'login.html'
     authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [AllowAny]
 
     def get(self, request):
         context = {'detail': 'This is the login view. GET method is allowed.'}

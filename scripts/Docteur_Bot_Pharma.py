@@ -1,6 +1,9 @@
 import discord
 import sqlite3
+import asyncio
 from discord.ext import commands
+from gtts import gTTS
+from io import BytesIO
 from scripts.Config_Docteur_Token import token, boss
 
 intents = discord.Intents.all()
@@ -26,6 +29,15 @@ async def private(ctx):
 @commands.check(isOwner)
 async def coucou(ctx):
     await ctx.send("Coucou")
+
+    # Génération de la synthèse vocale
+    tts = gTTS("Coucou", lang="fr")
+    audio_fp = BytesIO()
+    tts.write_to_fp(audio_fp)
+    audio_fp.seek(0)
+
+    # Envoi du message vocal
+    await ctx.send(content="Voici le message vocal:", file=discord.File(audio_fp, filename="coucou.mp3"))
 # Discord: !coucou
 
 @bot.command()
@@ -113,6 +125,16 @@ async def voici_la_piqure(ctx, response):
     # Affichage du résultat dans le chat Discord
     await ctx.send(f"Somme des doses pour la clé 'D_LOCATION' de la table de fait **{d_location}** pour la semaine actuelle en 2021 : **{somme_nb_doses} doses**")
     await ctx.send("Voici le lien GitHub du projet 'Pharma Post': **https://github.com/Jerome-Reviron/Pharma_post**")
+
+    # Génération de la synthèse vocale
+    tts = gTTS(f"Somme des doses pour la clé 'D_LOCATION' de la table de fait {d_location} : {somme_nb_doses} doses. Voici le lien GitHub du projet Pharma Post : https://github.com/Jerome-Reviron/Pharma_post", lang="fr")
+    audio_fp = BytesIO()
+    tts.write_to_fp(audio_fp)
+    audio_fp.seek(0)
+
+    # Envoi du message vocal
+    await ctx.send(content="Voici le message vocal :", file=discord.File(audio_fp, filename="quoi_de_neuf_docteur.mp3"))
+
 # Discord: !quoi_de_neuf_docteur
 
 # Commande secondaire
@@ -167,6 +189,15 @@ async def ma_maison(ctx, libelle_departement):
     # Affichage du résultat dans le chat Discord
     await ctx.send(f"Somme des doses pour le département **{libelle_departement}** pour la semaine actuelle en 2021 : **{somme_nb_doses} doses**")
     await ctx.send("Voici le lien GitHub du projet 'Pharma Post': **https://github.com/Jerome-Reviron/Pharma_post**")
+
+    # Génération de la synthèse vocale
+    tts = gTTS(f"Somme des doses pour le département {libelle_departement} : {somme_nb_doses} doses. Voici le lien GitHub du projet Pharma Post : https://github.com/Jerome-Reviron/Pharma_post", lang="fr")
+    audio_fp = BytesIO()
+    tts.write_to_fp(audio_fp)
+    audio_fp.seek(0)
+
+    # Envoi du message vocal
+    await ctx.send(content="Voici le message vocal :", file=discord.File(audio_fp, filename="le_bon_coin.mp3"))
 # Discord: !le_bon_coin
 
 @bot.event

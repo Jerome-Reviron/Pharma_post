@@ -20,7 +20,8 @@
 - [Vue Django - ETL_DWH_D_LOCATION](#views_ETL_DWH_D_LOCATION)
 - [Vue Django - ETL_DWH_F_FLUX](#views_ETL_DWH_F_FLUX)
 - [Interface Web - index.html](#UI_index)
-
+- [Interface Web - ETL_Table](#UI_ETL_Table)
+- [Interface Web - CSS](#CSS)
 
 
 ## Introduction <a name="introduction"></a>
@@ -442,3 +443,62 @@ Cette page d'accueil fournit aux utilisateurs des informations contextuelles sur
 ### Remarque
 
 Le fichier `index.html` sert de point central pour l'expérience utilisateur sur Pharma Post, fournissant des informations essentielles et des liens de navigation pour accéder à d'autres parties de l'application.
+
+# Interface Web - ETL_Tables <a name="UI_ETL_Table"></a>
+
+## Description du fichier `ETL_DWH_F_FLUX.html`
+
+Le fichier `ETL_DWH_F_FLUX.html` constitue l'interface utilisateur dédiée à la table de faits `F_FLUX` dans le système Pharma Post. Il offre une vue structurée et conviviale des données associées à cette table.
+
+### Caractéristiques Principales
+
+- **Langue :** Le document est rédigé en français (`lang="fr"`).
+
+- **En-tête :** L'en-tête contient des métadonnées importantes telles que la définition du jeu de caractères, la vue portée et les liens vers les feuilles de style Bootstrap et personnalisée.
+
+- **Titre :** La page est titrée "ETL_DWH_F_FLUX".
+
+- **Barre de Navigation :** Une barre de navigation fixée en haut de la page permet aux utilisateurs de naviguer entre différentes sections du site. Elle inclut le logo de Pharma Post, le nom du projet, et un bouton pour afficher un panneau de navigation latéral.
+
+- **Panneau de Navigation Latéral :** Un panneau latéral apparaît lorsqu'on clique sur le bouton de la barre de navigation. Il contient des liens vers des pages administratives, des tables, et des API en fonction du statut de connexion de l'utilisateur.
+
+- **Contenu Principal :** La section principale présente des informations spécifiques à la table `F_FLUX`. Elle affiche le titre de la table, le nombre total de lignes dans la table, et une représentation tabulaire des données. Chaque colonne de la table est identifiée par un en-tête.
+
+- **Pagination :** La pagination est intégrée pour gérer un grand nombre de lignes. Elle permet aux utilisateurs de naviguer entre les différentes pages de résultats.
+
+### Utilisations
+
+Cette interface facilite l'accès et la visualisation des données de la table de faits `F_FLUX` pour les utilisateurs de Pharma Post. Elle offre une expérience conviviale pour explorer les informations associées aux flux de données.
+
+### Remarque
+
+Le fichier `ETL_DWH_F_FLUX.html` suit la même structure que l'interface du fichier `ETL_ODS_Flux.html` du projet Pharma Post, assurant une cohérence dans la conception et la navigation. Pour maintenir cette uniformité, les fichiers `ETL_DWH_D_DATE.html`, `ETL_DWH_D_LOCATION.html`, et `ETL_DWH_D_TYPE_VACCIN.html` sont stylisés de manière similaire, en adaptant les noms de table et les colonnes en conséquence. Cela garantit une expérience utilisateur harmonieuse à travers les différentes tables de dimension.
+
+# Interface Web - CSS <a name="CSS"></a>
+
+## Installation de Bootstrap dans un Projet Django
+
+### Étape 1: Installation de Bootstrap
+
+Tout d'abord, ajoutez le lien vers la feuille de style Bootstrap dans votre fichier HTML. Vous pouvez le faire en ajoutant la ligne suivante dans la section `<head>` de votre fichier HTML.<br>
+Lien: 
+link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css".
+
+Cette ligne permet à votre projet Django d'accéder aux styles prédéfinis de Bootstrap.
+
+### Étape 2: Configuration du Dossier Static
+
+1. Créez un dossier `static` dans votre projet Django. Assurez-vous qu'il est situé à la racine du projet.
+
+2. Créez un fichier `styles.css` dans le dossier `static`. Ce fichier contiendra vos règles CSS personnalisées comme les import de font_google.<br>
+Liens: 
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
+
+### Étape 3: Configuration des Paramètres Django
+
+1. Ouvrez votre fichier `settings.py`** dans le dossier principal de votre projet Django.
+
+2. Ajoutez la configuration pour `STATICFILES_DIRS`.** Cela permet à Django de savoir où trouver les fichiers statiques.
+Cette étape est cruciale pour que Django puisse localiser les fichiers statiques, y compris les styles CSS personnalisés, dans le projet.

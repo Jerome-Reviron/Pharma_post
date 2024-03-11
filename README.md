@@ -7,6 +7,7 @@
 - [Contribuer](#contribuer)
 - [Licence](#licence)
 - [Mise en place du projet Django](#ProjetDjango)
+- [ETL des Données de Flux depuis un CSV](#ETL_ODS_Flux.py)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -81,3 +82,96 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_DATABASES.png)<br>
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_STATIC.png)<br>
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_CONNEXION_API.png)<br>
+
+# ETL des Données de Flux depuis un CSV <a name="ETL_ODS_Flux.py"></a>
+
+Ce script Python, `ETL_ODS_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV vers la base de données Django en utilisant le modèle `Flux`.
+
+### Introduction <a name="introduction_ETL_ODS_Flux.py"></a>
+
+Le script utilise Pandas pour lire un fichier CSV contenant des données sur les flux, puis les charge dans la base de données Django via le modèle `Flux`.
+
+### Fonctionnalités <a name="fonctionnalites_ETL_ODS_Flux.py"></a>
+
+- **Chargement du CSV**:<br>
+  Le script charge le fichier CSV `flux-total-dep.csv` dans un DataFrame Pandas.
+
+- **Troncature de la Table Flux**:<br>
+  La table `Flux` de la base de données Django est tronquée pour supprimer toutes les entrées existantes.
+
+- **Création des Objets Flux**:<br>
+  Des objets `Flux` sont créés à partir des données du DataFrame Pandas en utilisant une compréhension de liste avec `to_dict`.
+
+- **Insertion en Bloc dans la Base de Données**:<br>
+  Les objets `Flux` sont insérés en bloc dans la base de données en utilisant la méthode `bulk_create` pour optimiser les performances d'insertion.
+
+- **Récupération des Données Après l'Insertion**:<br>
+  Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas après l'opération `bulk_create`.
+
+### Utilisation <a name="utilisation_ETL_ODS_Flux.py"></a>
+
+1. Assurez-vous d'avoir un fichier CSV nommé `flux-total-dep.csv` dans le répertoire `data`.
+2. Exécutez le script `ETL_ODS_Flux.py`.
+
+### Particularités <a name="particularites_ETL_ODS_Flux.py"></a>
+
+- **Optimisation des Performances**:<br>
+  Le script utilise `bulk_create` pour optimiser l'insertion en bloc des objets `Flux` dans la base de données.
+
+- **Utilisation de Django ORM**:<br>
+  Les opérations de troncature, création d'objets et insertion sont effectuées en utilisant les fonctionnalités de Django ORM.
+# Modèle Django - Flux
+
+Le fichier `models.py` contient la définition du modèle Django pour représenter les données d'un flux. Ce modèle, appelé `Flux`, est utilisé pour structurer les informations extraites du fichier "flux-total". Les attributs du modèle correspondent aux différentes données du flux, telles que le code de la région, le libellé de la région, le code du département, le libellé du département, la date de fin de la semaine, le type de vaccin, le nombre d'unités de consommation directe du vaccin et le nombre total de doses du vaccin.
+
+La méthode `__str__` du modèle est personnalisée pour renvoyer une représentation lisible du flux, comprenant le code de la région, le code du département et le type de vaccin.
+
+### Introduction
+
+Le fichier `models.py` définit le modèle Django appelé `Flux`, structurant les informations extraites du fichier "flux-total". Les attributs du modèle incluent des données essentielles telles que le code et le libellé de la région, le code et le libellé du département, la date de fin de la semaine, le type de vaccin, et les quantités de doses du vaccin.
+
+### Fonctionnalités
+
+La méthode `__str__` est implémentée pour fournir une représentation lisible du flux, incluant des informations clés telles que le code de la région, le code du département et le type de vaccin.
+
+### Utilisations
+
+Le modèle `Flux` est utilisé dans l'application Django pour structurer les données extraites du fichier "flux-total". Il offre une représentation claire et organisée des flux, facilitant ainsi la manipulation et l'affichage de ces données.
+
+## Particularités
+
+Aucune particularité spécifique n'est mentionnée pour le modèle `Flux` dans ce contexte.
+
+# Vue Django - ETL_ODS_Flux
+
+Le fichier `views.py` contient des fonctions de vue Django, dont la fonction principale est `ETL_ODS_Flux`. Cette fonction est responsable de l'extraction, de la transformation et du chargement (ETL) des données de flux dans le système Django. Voici une explication détaillée de chaque partie de la fonction :
+
+- **Extraction des Flux de la Base de Données :** La fonction commence par extraire tous les flux de la base de données Django à l'aide de la requête `Flux.objects.all()`.
+
+- **Pagination des Flux :** La pagination est ensuite appliquée pour afficher un nombre limité de flux par page. Cela est réalisé en utilisant la classe `Paginator` de Django, qui divise la liste complète des flux en pages.
+
+- **Gestion des Pages :** La fonction gère différentes situations liées à la pagination, telles que la page demandée n'étant pas un entier ou si la page est hors de portée. Elle ajuste la page en conséquence pour garantir une expérience utilisateur fluide.
+
+- **Rendu du Contexte :** Enfin, la fonction prépare un contexte contenant les flux paginés (`context = {'fluxs': fluxs}`) et rend la page `ETL_ODS_Flux.html` avec ce contexte.
+
+### Introduction
+
+Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_ODS_Flux` est chargée d'effectuer le processus d'Extraction, de Transformation et de Chargement (ETL) des données de flux dans l'écosystème Django.
+
+### Fonctionnalités
+
+- **Extraction des Flux de la Base de Données :** Utilisation de la requête `Flux.objects.all()` pour extraire tous les flux de la base de données.
+
+- **Pagination des Flux :** Application de la pagination pour afficher un nombre limité de flux par page, facilitant la navigation pour l'utilisateur.
+
+- **Gestion des Pages :** Gestion des situations liées à la pagination, garantissant une expérience utilisateur sans accroc.
+
+- **Rendu du Contexte :** Préparation d'un contexte contenant les flux paginés pour être rendu sur la page `ETL_ODS_Flux.html`.
+
+### Utilisations
+
+La fonction `ETL_ODS_Flux` est essentielle pour permettre à l'utilisateur de visualiser les flux paginés extraits de la base de données, facilitant ainsi le suivi et l'analyse des données.
+
+### Particularités
+
+Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_ODS_Flux` dans ce contexte.

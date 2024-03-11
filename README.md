@@ -88,41 +88,31 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 # ETL des Données ODS depuis un CSV <a name="ETL_ODS_Flux.py"></a>
 
-Ce script Python, `ETL_ODS_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV vers la base de données Django en utilisant le modèle `Flux`.
+## Introduction:
+Ce script Python réalise le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV (`flux-total-dep.csv`) vers une base de données Django. Les données représentent des flux de vaccins, et le modèle Django utilisé est appelé `Flux`. Les étapes comprennent le chargement du fichier CSV, la troncature de la table `Flux`, la création d'objets `Flux` à partir des données du CSV, l'insertion en bloc dans la base de données à l'aide de `bulk_create`, et enfin, la récupération des données après l'insertion.
 
-### Introduction
+## Étapes détaillées:
 
-Le script utilise Pandas pour lire un fichier CSV contenant des données sur les flux, puis les charge dans la base de données Django via le modèle `Flux`.
+1. Chargement du fichier CSV dans un DataFrame Pandas:
+Le script utilise la bibliothèque Pandas pour lire le fichier CSV (`flux-total-dep.csv`) dans un DataFrame appelé `df`. Il spécifie le délimiteur, l'encodage et demande de ne pas traiter les valeurs manquantes comme des NaN.<br>
 
-### Fonctionnalités
+2. Troncature de la table `Flux`:
+Toutes les entrées existantes dans la table `Flux` sont supprimées (tronquées) à l'aide de la méthode `delete()`.<br>
 
-- **Chargement du CSV**:<br>
-  Le script charge le fichier CSV `flux-total-dep.csv` dans un DataFrame Pandas.
+3. Création des objets `Flux` à partir du DataFrame:
+Le script utilise une compréhension de liste avec `iterrows()` pour créer une liste d'objets `Flux`. Chaque ligne du DataFrame est convertie en un objet `Flux`.<br>
 
-- **Troncature de la Table Flux**:<br>
-  La table `Flux` de la base de données Django est tronquée pour supprimer toutes les entrées existantes.
+4. Insertion en bloc des objets `Flux` dans la base de données:
+La liste d'objets `Flux` est insérée en bloc dans la base de données à l'aide de la méthode `bulk_create()`.<br>
 
-- **Création des Objets Flux**:<br>
-  Des objets `Flux` sont créés à partir des données du DataFrame Pandas en utilisant une compréhension de liste avec `to_dict`.
+5. Récupération des données après `bulk_create` dans un DataFrame:
+Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas appelé `df_Flux_apres_bulk_create` à l'aide de la méthode `from_records()`.<br>
 
-- **Insertion en Bloc dans la Base de Données**:<br>
-  Les objets `Flux` sont insérés en bloc dans la base de données en utilisant la méthode `bulk_create` pour optimiser les performances d'insertion.
+6. Affichage des résultats:
+Le script affiche des messages indiquant le nombre de lignes chargées depuis le fichier CSV, le nombre d'objets `Flux` créés, et une confirmation de l'insertion des objets `Flux` dans la base de données.<br>
 
-- **Récupération des Données Après l'Insertion**:<br>
-  Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas après l'opération `bulk_create`.
-
-### Utilisation
-
-1. Assurez-vous d'avoir un fichier CSV nommé `flux-total-dep.csv` dans le répertoire `data`.
-2. Exécutez le script `ETL_ODS_Flux.py`.
-
-### Particularités
-
-- **Optimisation des Performances**:<br>
-  Le script utilise `bulk_create` pour optimiser l'insertion en bloc des objets `Flux` dans la base de données.
-
-- **Utilisation de Django ORM**:<br>
-  Les opérations de troncature, création d'objets et insertion sont effectuées en utilisant les fonctionnalités de Django ORM.
+7. Exécution du script:
+Le script est exécuté si le fichier est lancé en tant que script principal (`__name__ == "__main__"`).<br>
 
 # Modèle Django - Flux <a name="models_Flux"></a> 
 
@@ -182,46 +172,45 @@ Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_ODS_Fl
 
 # ETL des Données DWH depuis DataFrame df_flux <a name="ETL_DWH_Flux.py"></a>
 
-Ce script Python, `ETL_DWH_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un DataFrame Pandas vers la base de données Django en utilisant le modèle `Flux`.
+## Introduction
 
-### Introduction
+Ce script Python réalise un processus d'Extraction, Transformation et Chargement (ETL) des données à partir d'un DataFrame Pandas vers une base de données Django. Le modèle de données Django utilisé comprend les tables `Flux`, `D_TYPE_VACCIN`, `D_DATE`, `D_LOCATION`, et `F_FLUX`. Les données en question représentent des flux de vaccins, et le script effectue diverses opérations pour préparer et insérer ces données dans la base de données Django.
 
-Le script utilise un DataFrame Pandas contenant des données sur les flux, puis les charge dans la base de données Django via le modèle `Flux`.
+## Étapes détaillées
 
-### Fonctionnalités
+1. Chargement des DataFrames pour flux
+Les données de la table `Flux` de la base de données sont extraites sous forme de dictionnaires à l'aide de la méthode `values()`.
+Un DataFrame Pandas (`df_flux`) est créé à partir de ces données.<br>
 
-- **Extraction des Données depuis la Base de Données Django**:<br>
-  Les données du modèle `Flux` sont extraites de la base de données Django pour être utilisées dans le processus ETL.
+2. Filtrage des lignes
+Les lignes du DataFrame sont filtrées en utilisant la méthode `query()` pour exclure les valeurs "NA" dans les colonnes `nb_ucd` et `nb_doses`.
+La longueur du DataFrame après l'application des filtres est affichée.<br>
 
-- **Filtrage des Lignes**:<br>
-  Les lignes du DataFrame sont filtrées pour exclure celles avec des valeurs "NA" dans les colonnes `nb_ucd` et `nb_doses`.
+3. Nettoyage des valeurs de la colonne 'type_de_vaccin'
+Les valeurs de la colonne 'type_de_vaccin' sont nettoyées en supprimant les espaces et en les remplaçant par des underscores.<br>
 
-- **Nettoyage des Valeurs de la Colonne 'type_de_vaccin'**:<br>
-  Les valeurs de la colonne 'type_de_vaccin' sont nettoyées en supprimant les espaces et en remplaçant les espaces par des underscores.
+4. Bulk create des enregistrements D_TYPE_VACCIN, gestion des doublons
+Une liste unique des types de vaccin est créée à partir des valeurs uniques de la colonne 'type_de_vaccin'.
+Toutes les données de la table `D_TYPE_VACCIN` sont supprimées (`truncate`) avant l'insertion.
+Les objets `D_TYPE_VACCIN` sont créés à partir de la liste unique et insérés en bloc dans la base de données.<br>
 
-- **Insertion des Objets D_TYPE_VACCIN**:<br>
-  Les types de vaccin uniques sont extraits du DataFrame, la table `D_TYPE_VACCIN` est tronquée, puis les objets D_TYPE_VACCIN sont créés et insérés en bloc dans la base de données.
+5. Bulk create des enregistrements D_DATE, gestion des doublons
+Une liste unique des dates est créée à partir des valeurs uniques de la colonne 'date_fin_semaine'.
+Toutes les données de la table `D_DATE` sont supprimées (`truncate`) avant l'insertion.
+Les objets `D_DATE` sont créés à partir de la liste unique et insérés en bloc dans la base de données.<br>
 
-- **Insertion des Objets D_DATE**:<br>
-  Les dates uniques sont extraites du DataFrame, la table `D_DATE` est tronquée, puis les objets D_DATE sont créés et insérés en bloc dans la base de données.
+6. Bulk create des enregistrements D_LOCATION, gestion des doublons
+Le DataFrame est prétraité en ajoutant un "0" devant chaque `code_departement` d'un seul chiffre.
+Le DataFrame est trié selon les colonnes spécifiées.
+Une colonne 'code_region_code_departement' est ajoutée au DataFrame.
+Toutes les données de la table `D_LOCATION` sont supprimées (`truncate`) avant l'insertion.
+Les objets `D_LOCATION` sont créés à partir des lignes triées du DataFrame et insérés en bloc dans la base de données.<br>
 
-- **Insertion des Objets D_LOCATION**:<br>
-  Les données de localisation sont triées, la table `D_LOCATION` est tronquée, puis les objets D_LOCATION sont créés et insérés en utilisant la méthode `update_or_create` pour gérer d'éventuels doublons.
+7. Tri du DataFrame principal et création d'objets F_FLUX
+Le DataFrame principal (`df_flux_sorted`) est trié selon la clé primaire concaténée.
+Une liste d'objets `F_FLUX` est créée à partir des lignes triées du DataFrame.<br>
 
-- **Insertion des Objets F_FLUX**:<br>
-  Les données du flux sont triées, la table `F_FLUX` est tronquée, puis les objets F_FLUX sont créés et insérés en bloc dans la base de données.
-
-- **Récupération des Données Après l'Insertion**:<br>
-  Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas après l'opération `bulk_create`.
-
-### Utilisation
-
-1. Exécutez le script `ETL_DWH_Flux.py`.
-
-### Particularités
-
-- **Optimisation des Performances**:<br>
-  Le script utilise `bulk_create` pour optimiser l'insertion en bloc des objets dans la base de données.
-
-- **Utilisation de Django ORM**:<br>
-  Les opérations de troncature, création d'objets et insertion sont effectuées en utilisant les fonctionnalités de Django ORM.
+8. Suppression des entrées existantes et insertion en bloc des objets F_FLUX
+Toutes les entrées existantes dans la table `F_FLUX` sont supprimées.
+Les objets `F_FLUX` sont insérés en bloc dans la base de données avec une transaction atomique pour garantir l'intégrité.
+Des messages de progression sont affichés pendant l'insertion.<br>

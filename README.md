@@ -19,6 +19,8 @@
 - [Vue Django - ETL_DWH_D_DATE](#views_ETL_DWH_D_DATE)
 - [Vue Django - ETL_DWH_D_LOCATION](#views_ETL_DWH_D_LOCATION)
 - [Vue Django - ETL_DWH_F_FLUX](#views_ETL_DWH_F_FLUX)
+- [Interface Web - index.html](#UI_index)
+
 
 
 ## Introduction <a name="introduction"></a>
@@ -408,3 +410,35 @@ La fonction `ETL_DWH_F_FLUX` est essentielle pour permettre à l'utilisateur de 
 ### Particularités
 
 Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_F_FLUX` dans ce contexte.
+
+# Interface Web - index.html <a name="UI_index"></a>
+
+### Description du fichier `index.html`
+
+Le fichier `index.html` est la page d'accueil de l'application Pharma Post. Il sert de point d'entrée pour les utilisateurs et présente des informations essentielles sur le projet, ainsi que des fonctionnalités de navigation.
+
+### Caractéristiques Principales
+
+- **Langue :** Le document est rédigé en français (`lang="fr"`).
+
+- **En-tête :** L'en-tête contient des métadonnées importantes telles que la définition du jeu de caractères, la vue portée et le lien vers la feuille de style Bootstrap.
+
+- **Titre :** La page est titrée "Pharma Post".
+
+- **Barre de Navigation :** Une barre de navigation fixée en haut de la page permet aux utilisateurs de naviguer entre différentes sections du site. Elle inclut le logo de Pharma Post, le nom du projet, et un bouton pour afficher un panneau de navigation latéral.
+
+- **Panneau de Navigation Latéral :** Un panneau latéral apparaît lorsqu'on clique sur le bouton de la barre de navigation. Il contient des liens vers des pages administratives, des tables, et des API en fonction du statut de connexion de l'utilisateur.
+
+- **Sections :** La page est structurée en sections décrivant le projet, ses objectifs, et les étapes de développement. Ces sections incluent une description de Pharma Post, l'origine des données, les objectifs du projet, et les missions du développeur.
+
+- **Liens :** Des liens vers des pages administratives, des tables, et des API sont inclus dans le panneau de navigation, permettant aux utilisateurs de naviguer rapidement vers des sections spécifiques du site.
+
+- **Script Bootstrap :** Un script Bootstrap est inclus à la fin du fichier pour assurer un comportement réactif de l'interface utilisateur.
+
+### Utilisations
+
+Cette page d'accueil fournit aux utilisateurs des informations contextuelles sur le projet Pharma Post, son objectif, et les liens nécessaires pour accéder à des fonctionnalités spécifiques de l'application.
+
+### Remarque
+
+Le fichier `index.html` sert de point central pour l'expérience utilisateur sur Pharma Post, fournissant des informations essentielles et des liens de navigation pour accéder à d'autres parties de l'application.

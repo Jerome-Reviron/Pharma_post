@@ -22,6 +22,7 @@
 - [Interface Web - index.html](#UI_index)
 - [Interface Web - ETL_Table](#UI_ETL_Table)
 - [Interface Web - CSS](#CSS)
+- [Startapp API](#API)
 
 
 ## Introduction <a name="introduction"></a>
@@ -482,7 +483,7 @@ Le fichier `ETL_DWH_F_FLUX.html` suit la même structure que l'interface du fich
 
 Tout d'abord, ajoutez le lien vers la feuille de style Bootstrap dans votre fichier HTML. Vous pouvez le faire en ajoutant la ligne suivante dans la section `<head>` de votre fichier HTML.<br>
 
-link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css".
+link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css".<br>
 
 Cette ligne permet à votre projet Django d'accéder aux styles prédéfinis de Bootstrap.
 
@@ -502,3 +503,91 @@ Cette ligne permet à votre projet Django d'accéder aux styles prédéfinis de 
 
 2. Ajoutez la configuration pour `STATICFILES_DIRS`.** Cela permet à Django de savoir où trouver les fichiers statiques.
 Cette étape est cruciale pour que Django puisse localiser les fichiers statiques, y compris les styles CSS personnalisés, dans le projet.
+
+# Startapp API  <a name="API"></a>
+
+## API Django - Views.py
+
+Le fichier `views.py` de votre application Django met en œuvre une architecture générique pour les API en utilisant une classe de base, `BaseAPI`, et des classes dérivées spécifiques à chaque table de la base de données.
+
+## BaseAPI
+
+La classe `BaseAPI` agit comme une classe de base commune pour toutes les API de votre projet. Elle fournit des méthodes génériques pour les opérations CRUD, facilitant la gestion cohérente des différentes tables de la base de données.
+
+### Fonctionnalités principales
+
+- **Gestion des Modèles et Sérialiseurs :** Utilise des dictionnaires (`model_dict` et `serializer_dict`) pour associer dynamiquement les modèles et sérialiseurs correspondant à chaque table.
+
+- **Configuration du Modèle par Défaut :** Définit `default_t` comme le modèle par défaut pour les requêtes, offrant une flexibilité dans le choix du modèle.
+
+- **Sélection Dynamique du Modèle :** Permet aux classes dérivées de spécifier le modèle à utiliser en fonction de la requête.
+
+- **Réponse Générique :** Renvoie des réponses JSON génériques avec des informations sur le modèle, le nombre total de lignes et les données sérialisées.
+
+#### Méthode `get`
+
+La méthode `get` récupère les données de la table associée au modèle spécifié. Elle permet d'effectuer des recherches, de sérialiser les données, et renvoie une réponse avec des informations détaillées.
+
+## Classes Dérivées
+
+Les classes dérivées, telles que `API_Operational_Data_Store_Flux`, spécialisent la classe de base pour chaque table spécifique de la base de données.
+
+### Personnalisation des Opérations CRUD
+
+Chaque classe dérivée peut personnaliser les méthodes CRUD selon les besoins spécifiques de la table associée. Par exemple, la classe `API_Operational_Data_Store_Flux` a des méthodes `get`, `post`, `put`, `patch`, et `delete` personnalisées pour la table Flux.
+
+#### Méthode `get`
+
+- Récupère les données de la table Flux, offrant une flexibilité pour renvoyer tous les enregistrements ou un enregistrement spécifique.
+
+#### Méthode `post`
+
+- Permet d'ajouter un nouvel enregistrement à la table Flux en utilisant les données fournies dans la requête POST.
+
+#### Méthodes `put`, `patch`
+
+- Facilitent la mise à jour des détails d'un enregistrement existant dans la table Flux, avec la distinction entre une mise à jour complète (`put`) et une mise à jour partielle (`patch`).
+
+#### Méthode `delete`
+
+- Permet de supprimer un enregistrement spécifié par son identifiant, ou tous les enregistrements si aucun identifiant n'est fourni.
+
+## API Django -  serializers.py 
+
+Le fichier `serializers.py` est essentiel pour l'API Django, car il définit comment les objets Python (issus des modèles) doivent être convertis en JSON, et vice versa. Il assure la sérialisation et la désérialisation des données, permettant ainsi aux vues de traiter facilement les requêtes HTTP.
+
+## Serializer Django REST Framework
+
+Dans votre cas, vous utilisez le module `serializers` de Django REST Framework pour créer des sérialiseurs spécifiques à chaque modèle de votre application.
+
+### Fonctionnement Général
+
+1. **Import des Modules Nécessaires :**
+   - `serializers` : Module principal de Django REST Framework pour la création de sérialiseurs.
+   - `authenticate` : Permet d'authentifier un utilisateur.
+   - `Token` : Modèle de token d'authentification utilisé pour générer des tokens pour les utilisateurs.
+
+2. **Import des Modèles :**
+   - Vous importez les modèles Django associés à votre application, tels que `Flux`, `D_TYPE_VACCIN`, `D_DATE`, `D_LOCATION`, et `F_FLUX`.
+
+3. **Création des Sérialiseurs :**
+   - Vous définissez des classes de sérialiseur spécifiques à chaque modèle en utilisant `serializers.ModelSerializer`.
+   - La classe `Meta` à l'intérieur de chaque sérialiseur indique le modèle associé et spécifie les champs à inclure dans la sérialisation (dans votre cas, tous les champs avec `fields = '__all__'`).
+
+### Utilisation dans les Vues
+
+1. **Import des Sérialiseurs dans `views.py` :**
+   - Les sérialiseurs définis dans `serializers.py` sont importés dans le fichier `views.py`. Par exemple, `Flux_Serializer` est utilisé dans `API_Operational_Data_Store_Flux` pour sérialiser les données de la table `Flux`.
+
+2. **Utilisation dans les Méthodes des Vues :**
+   - Les sérialiseurs sont utilisés dans les méthodes des vues pour convertir les objets Python (récupérés de la base de données) en JSON lors des opérations de lecture (GET) et pour convertir les données JSON des requêtes HTTP en objets Python lors des opérations d'écriture (POST, PUT, PATCH).
+
+3. **Réutilisation dans d'Autres Vues :**
+   - Les sérialiseurs peuvent être réutilisés dans d'autres vues pour les modèles correspondants. Par exemple, `D_TYPE_VACCIN_Serializer` est utilisé pour sérialiser les données de la table `D_TYPE_VACCIN`.
+
+### Avantages
+
+- **Simplicité de Conversion :** Les sérialiseurs simplifient la conversion entre les objets Django (modèles) et le format JSON, facilitant ainsi la communication entre le backend et le frontend.
+- **Réutilisation du Code :** En définissant des sérialiseurs pour chaque modèle, vous favorisez la réutilisation du code, améliorant la maintenabilité et la cohérence de l'application.
+
+L'utilisation de sérialiseurs dans Django REST Framework est une pratique courante pour construire des APIs robustes et flexibles.

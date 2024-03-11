@@ -35,7 +35,6 @@ De nombreux cours théoriques et pratiques sont réalisés pour consolider notre
 Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 # Mise en place du projet Django <a name="MAJ_Projet_Django"></a>
-Création d’un nouveau repository GitHub.
 
 ### Création d’un nouveau repository GitHub
 - Démarrez en créant un nouveau repository GitHub. Dans cet exemple, le repository est nommé Pharma_post.
@@ -47,7 +46,7 @@ Création d’un nouveau repository GitHub.
 
 ### Création du fichier Dockerfile à la racine
 - Créez un fichier Dockerfile à la racine du projet avec le contenu suivant :<br>
-![Dockerfile](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/Dockerfile.png)
+![Dockerfile](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Dockerfile.png)
 
 ### Création du fichier docker-compose.yml à la racine
 - Créez un fichier docker-compose.yml à la racine du projet avec un contenu de base.<br>

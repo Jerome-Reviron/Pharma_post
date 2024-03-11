@@ -6,13 +6,7 @@
 - [Utilisation](#utilisation)
 - [Contribuer](#contribuer)
 - [Licence](#licence)
-- [Mise en place du projet Django](#MAJ_Projet_Django)
-- [Test_scrapping de Fromages](#test_scrapping_fromages.py)
-- [Interface fromage_UI](#interface_fromage.py)
-- [Création fromages_table.csv](#csv_fromages_table.py)
-- [Création des Tables ODS](#create_table_ODS)
-- [Création des Tables DWH](#create_table_DWH)
-- [Interface questionnaire_UI](#interface_questionnaire.py)
+- [Mise en place du projet Django](#ProjetDjango)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -34,7 +28,7 @@ De nombreux cours théoriques et pratiques sont réalisés pour consolider notre
 ## Licence <a name="licence"></a>
 Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
-# Mise en place du projet Django <a name="MAJ_Projet_Django"></a>
+# Mise en place du projet Django <a name="ProjetDjango"></a>
 
 ### Création d’un nouveau repository GitHub
 - Démarrez en créant un nouveau repository GitHub. Dans cet exemple, le repository est nommé Pharma_post.

@@ -22,8 +22,12 @@
 - [Interface Web - index.html](#UI_index)
 - [Interface Web - ETL_Table](#UI_ETL_Table)
 - [Interface Web - CSS](#CSS)
-- [Startapp API](#API)
+- [API Django - views.py](#API_Views.py)
+- [API Django - serializers.py](#API_serializers.py)
+- [API Django Authentification - views_auth.py](#API_views_auth.py)
+- [API Django Authentification - LoginSerializers](#API_LoginSerializers)
 
+# API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -504,9 +508,7 @@ Cette ligne permet à votre projet Django d'accéder aux styles prédéfinis de 
 2. Ajoutez la configuration pour `STATICFILES_DIRS`.** Cela permet à Django de savoir où trouver les fichiers statiques.
 Cette étape est cruciale pour que Django puisse localiser les fichiers statiques, y compris les styles CSS personnalisés, dans le projet.
 
-# Startapp API  <a name="API"></a>
-
-## API Django - Views.py
+# API Django - `views.py` <a name="API_Views.py"></a>
 
 Le fichier `views.py` de votre application Django met en œuvre une architecture générique pour les API en utilisant une classe de base, `BaseAPI`, et des classes dérivées spécifiques à chaque table de la base de données.
 
@@ -552,7 +554,7 @@ Chaque classe dérivée peut personnaliser les méthodes CRUD selon les besoins 
 
 - Permet de supprimer un enregistrement spécifié par son identifiant, ou tous les enregistrements si aucun identifiant n'est fourni.
 
-## API Django -  serializers.py 
+# API Django -  `serializers.py` <a name="API_serializers.py"></a>
 
 Le fichier `serializers.py` est essentiel pour l'API Django, car il définit comment les objets Python (issus des modèles) doivent être convertis en JSON, et vice versa. Il assure la sérialisation et la désérialisation des données, permettant ainsi aux vues de traiter facilement les requêtes HTTP.
 
@@ -591,3 +593,60 @@ Dans votre cas, vous utilisez le module `serializers` de Django REST Framework p
 - **Réutilisation du Code :** En définissant des sérialiseurs pour chaque modèle, vous favorisez la réutilisation du code, améliorant la maintenabilité et la cohérence de l'application.
 
 L'utilisation de sérialiseurs dans Django REST Framework est une pratique courante pour construire des APIs robustes et flexibles.
+
+# API Django Authentification - `views_auth.py` <a name="API_Views_auth.py"></a>
+
+Le fichier `views_auth.py` de votre projet Django gère l'authentification des utilisateurs. Voici une brève description de son contenu :
+
+## `LoginView` Class
+
+La classe `LoginView` hérite de `TemplateView` de Django, permettant d'afficher un modèle HTML. Cette classe gère le processus d'authentification.
+
+### Méthode `get`
+
+La méthode `get` est utilisée pour gérer les requêtes GET, renvoyant le contenu HTML de la page de connexion.
+
+### Méthode `post`
+
+La méthode `post` gère les requêtes POST, principalement utilisées pour la soumission du formulaire de connexion. Elle effectue les actions suivantes :
+
+1. Utilise le sérialiseur `LoginSerializer` pour valider les données du formulaire.
+2. Si les données sont valides, elle authentifie l'utilisateur avec les informations fournies.
+3. Si l'authentification réussit, elle crée un token d'authentification pour l'utilisateur.
+4. Renvoie une réponse JSON contenant le token en cas de succès, ou les erreurs en cas d'échec.
+
+## Utilisation des Classes et Modules
+
+- `TemplateView`: Classe de Django pour afficher des modèles HTML.
+- `render`: Fonction de Django pour générer une réponse HTTP avec le contenu HTML.
+- `authenticate`: Fonction de Django pour authentifier un utilisateur.
+- `LoginSerializer`: Sérialiseur utilisé pour valider et traiter les informations de connexion.
+- `JsonResponse`: Réponse JSON pour les requêtes.
+
+Cette classe facilite le processus d'authentification dans votre application Django, en utilisant Django REST Framework pour la gestion des tokens et des sérialiseurs.
+
+# API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>
+
+Le fichier `serializers.py` de votre projet Django contient un sérialiseur spécifique, `LoginSerializer`, utilisé pour valider les informations de connexion d'un utilisateur.
+
+## `LoginSerializer` Class
+
+La classe `LoginSerializer` hérite du sérialiseur de Django REST Framework et est conçue pour traiter les informations de connexion, telles que le nom d'utilisateur (`username`) et le mot de passe (`password`).
+
+### Champs du Sérialiseur
+
+- `username`: Champ pour le nom d'utilisateur.
+- `password`: Champ pour le mot de passe (en écriture seulement, indiqué par `write_only=True`).
+
+### Méthode `validate`
+
+La méthode `validate` est définie pour effectuer la validation personnalisée des données du sérialiseur. Elle réalise les opérations suivantes :
+
+1. Récupère le nom d'utilisateur et le mot de passe à partir des données.
+2. Vérifie si le nom d'utilisateur et le mot de passe sont fournis.
+3. Utilise la fonction `authenticate` de Django pour vérifier l'authenticité des informations de connexion.
+4. En cas de succès, renvoie les données de l'utilisateur authentifié.
+
+Si des erreurs sont détectées pendant la validation, des exceptions de type `serializers.ValidationError` sont levées.
+
+Ce sérialiseur est utilisé dans le processus d'authentification de la classe `LoginView` de votre fichier `views_auth.py`, contribuant ainsi à la sécurisation de l'accès à votre application.

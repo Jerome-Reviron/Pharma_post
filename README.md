@@ -8,8 +8,8 @@
 - [Licence](#licence)
 - [Mise en place du projet Django](#projet_django)
 - [ETL des Données de Flux depuis un CSV](#ETL_ODS_Flux.py)
-- [Modèle Flux](#models_Flux.py)
-- [Views Flux](#views_Flux.py)
+- [Modèle Django - Flux](#models_Flux.py)
+- [Vue Django - ETL_ODS_Flux](#views_ETL_ODS_Flux.py)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -123,7 +123,7 @@ Le script utilise Pandas pour lire un fichier CSV contenant des données sur les
 - **Utilisation de Django ORM**:<br>
   Les opérations de troncature, création d'objets et insertion sont effectuées en utilisant les fonctionnalités de Django ORM.
 
-# Modèle Flux <a name="models_Flux"></a>
+# Modèle Django - Flux <a name="models_Flux"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données d'un flux. Ce modèle, appelé `Flux`, est utilisé pour structurer les informations extraites du fichier "flux-total". Les attributs du modèle correspondent aux différentes données du flux, telles que le code de la région, le libellé de la région, le code du département, le libellé du département, la date de fin de la semaine, le type de vaccin, le nombre d'unités de consommation directe du vaccin et le nombre total de doses du vaccin.
 
@@ -145,7 +145,7 @@ Le modèle `Flux` est utilisé dans l'application Django pour structurer les don
 
 Aucune particularité spécifique n'est mentionnée pour le modèle `Flux` dans ce contexte.
 
-# Vue Django - ETL_ODS_Flux
+# Vue Django - ETL_ODS_Flux <a name="views_ETL_ODS_Flux"></a>
 
 Le fichier `views.py` contient des fonctions de vue Django, dont la fonction principale est `ETL_ODS_Flux`. Cette fonction est responsable de l'extraction, de la transformation et du chargement (ETL) des données de flux dans le système Django. Voici une explication détaillée de chaque partie de la fonction :
 

@@ -10,6 +10,7 @@
 - [ETL des Données de Flux depuis un CSV](#ETL_ODS_Flux.py)
 - [Modèle Django - Flux](#models_Flux)
 - [Vue Django - ETL_ODS_Flux](#views_ETL_ODS_Flux)
+- [ETL des Données DWH depuis DataFrame df_flux](#ETL_DWH_Flux.py)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -85,6 +86,35 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_STATIC.png)<br>
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_CONNEXION_API.png)<br>
 
+
+# ETL des Données ODS depuis un CSV <a name="ETL_ODS_Flux.py"></a>
+
+## Introduction:
+Ce script Python réalise le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV (`flux-total-dep.csv`) vers une base de données Django. Les données représentent des flux de vaccins, et le modèle Django utilisé est appelé `Flux`. Les étapes comprennent le chargement du fichier CSV, la troncature de la table `Flux`, la création d'objets `Flux` à partir des données du CSV, l'insertion en bloc dans la base de données à l'aide de `bulk_create`, et enfin, la récupération des données après l'insertion.
+
+## Étapes détaillées:
+
+1. Chargement du fichier CSV dans un DataFrame Pandas:
+Le script utilise la bibliothèque Pandas pour lire le fichier CSV (`flux-total-dep.csv`) dans un DataFrame appelé `df`. Il spécifie le délimiteur, l'encodage et demande de ne pas traiter les valeurs manquantes comme des NaN.<br>
+
+2. Troncature de la table `Flux`:
+Toutes les entrées existantes dans la table `Flux` sont supprimées (tronquées) à l'aide de la méthode `delete()`.<br>
+
+3. Création des objets `Flux` à partir du DataFrame:
+Le script utilise une compréhension de liste avec `iterrows()` pour créer une liste d'objets `Flux`. Chaque ligne du DataFrame est convertie en un objet `Flux`.<br>
+
+4. Insertion en bloc des objets `Flux` dans la base de données:
+La liste d'objets `Flux` est insérée en bloc dans la base de données à l'aide de la méthode `bulk_create()`.<br>
+
+5. Récupération des données après `bulk_create` dans un DataFrame:
+Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas appelé `df_Flux_apres_bulk_create` à l'aide de la méthode `from_records()`.<br>
+
+6. Affichage des résultats:
+Le script affiche des messages indiquant le nombre de lignes chargées depuis le fichier CSV, le nombre d'objets `Flux` créés, et une confirmation de l'insertion des objets `Flux` dans la base de données.<br>
+
+7. Exécution du script:
+Le script est exécuté si le fichier est lancé en tant que script principal (`__name__ == "__main__"`).<br>
+=======
 # ETL des Données de Flux depuis un CSV <a name="ETL_ODS_Flux.py"></a>
 
 Ce script Python, `ETL_ODS_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV vers la base de données Django en utilisant le modèle `Flux`.
@@ -178,3 +208,48 @@ La fonction `ETL_ODS_Flux` est essentielle pour permettre à l'utilisateur de vi
 ### Particularités
 
 Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_ODS_Flux` dans ce contexte.
+
+# ETL des Données DWH depuis DataFrame df_flux <a name="ETL_DWH_Flux.py"></a>
+
+## Introduction
+
+Ce script Python réalise un processus d'Extraction, Transformation et Chargement (ETL) des données à partir d'un DataFrame Pandas vers une base de données Django. Le modèle de données Django utilisé comprend les tables `Flux`, `D_TYPE_VACCIN`, `D_DATE`, `D_LOCATION`, et `F_FLUX`. Les données en question représentent des flux de vaccins, et le script effectue diverses opérations pour préparer et insérer ces données dans la base de données Django.
+
+## Étapes détaillées
+
+1. Chargement des DataFrames pour flux
+Les données de la table `Flux` de la base de données sont extraites sous forme de dictionnaires à l'aide de la méthode `values()`.
+Un DataFrame Pandas (`df_flux`) est créé à partir de ces données.<br>
+
+2. Filtrage des lignes
+Les lignes du DataFrame sont filtrées en utilisant la méthode `query()` pour exclure les valeurs "NA" dans les colonnes `nb_ucd` et `nb_doses`.
+La longueur du DataFrame après l'application des filtres est affichée.<br>
+
+3. Nettoyage des valeurs de la colonne 'type_de_vaccin'
+Les valeurs de la colonne 'type_de_vaccin' sont nettoyées en supprimant les espaces et en les remplaçant par des underscores.<br>
+
+4. Bulk create des enregistrements D_TYPE_VACCIN, gestion des doublons
+Une liste unique des types de vaccin est créée à partir des valeurs uniques de la colonne 'type_de_vaccin'.
+Toutes les données de la table `D_TYPE_VACCIN` sont supprimées (`truncate`) avant l'insertion.
+Les objets `D_TYPE_VACCIN` sont créés à partir de la liste unique et insérés en bloc dans la base de données.<br>
+
+5. Bulk create des enregistrements D_DATE, gestion des doublons
+Une liste unique des dates est créée à partir des valeurs uniques de la colonne 'date_fin_semaine'.
+Toutes les données de la table `D_DATE` sont supprimées (`truncate`) avant l'insertion.
+Les objets `D_DATE` sont créés à partir de la liste unique et insérés en bloc dans la base de données.<br>
+
+6. Bulk create des enregistrements D_LOCATION, gestion des doublons
+Le DataFrame est prétraité en ajoutant un "0" devant chaque `code_departement` d'un seul chiffre.
+Le DataFrame est trié selon les colonnes spécifiées.
+Une colonne 'code_region_code_departement' est ajoutée au DataFrame.
+Toutes les données de la table `D_LOCATION` sont supprimées (`truncate`) avant l'insertion.
+Les objets `D_LOCATION` sont créés à partir des lignes triées du DataFrame et insérés en bloc dans la base de données.<br>
+
+7. Tri du DataFrame principal et création d'objets F_FLUX
+Le DataFrame principal (`df_flux_sorted`) est trié selon la clé primaire concaténée.
+Une liste d'objets `F_FLUX` est créée à partir des lignes triées du DataFrame.<br>
+
+8. Suppression des entrées existantes et insertion en bloc des objets F_FLUX
+Toutes les entrées existantes dans la table `F_FLUX` sont supprimées.
+Les objets `F_FLUX` sont insérés en bloc dans la base de données avec une transaction atomique pour garantir l'intégrité.
+Des messages de progression sont affichés pendant l'insertion.<br>

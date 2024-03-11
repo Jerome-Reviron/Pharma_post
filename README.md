@@ -86,6 +86,7 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_STATIC.png)<br>
 ![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_CONNEXION_API.png)<br>
 
+
 # ETL des Données ODS depuis un CSV <a name="ETL_ODS_Flux.py"></a>
 
 ### Introduction:
@@ -113,6 +114,44 @@ Le script affiche des messages indiquant le nombre de lignes chargées depuis le
 
 7. Exécution du script:
 Le script est exécuté si le fichier est lancé en tant que script principal (`__name__ == "__main__"`).<br>
+
+# ETL des Données de Flux depuis un CSV <a name="ETL_ODS_Flux.py"></a>
+
+Ce script Python, `ETL_ODS_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV vers la base de données Django en utilisant le modèle `Flux`.
+
+### Introduction
+
+Le script utilise Pandas pour lire un fichier CSV contenant des données sur les flux, puis les charge dans la base de données Django via le modèle `Flux`.
+
+### Fonctionnalités
+
+- **Chargement du CSV**:<br>
+  Le script charge le fichier CSV `flux-total-dep.csv` dans un DataFrame Pandas.
+
+- **Troncature de la Table Flux**:<br>
+  La table `Flux` de la base de données Django est tronquée pour supprimer toutes les entrées existantes.
+
+- **Création des Objets Flux**:<br>
+  Des objets `Flux` sont créés à partir des données du DataFrame Pandas en utilisant une compréhension de liste avec `to_dict`.
+
+- **Insertion en Bloc dans la Base de Données**:<br>
+  Les objets `Flux` sont insérés en bloc dans la base de données en utilisant la méthode `bulk_create` pour optimiser les performances d'insertion.
+
+- **Récupération des Données Après l'Insertion**:<br>
+  Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas après l'opération `bulk_create`.
+
+### Utilisation
+
+1. Assurez-vous d'avoir un fichier CSV nommé `flux-total-dep.csv` dans le répertoire `data`.
+2. Exécutez le script `ETL_ODS_Flux.py`.
+
+### Particularités
+
+- **Optimisation des Performances**:<br>
+  Le script utilise `bulk_create` pour optimiser l'insertion en bloc des objets `Flux` dans la base de données.
+
+- **Utilisation de Django ORM**:<br>
+  Les opérations de troncature, création d'objets et insertion sont effectuées en utilisant les fonctionnalités de Django ORM.
 
 # Modèle Django - Flux <a name="models_Flux"></a> 
 

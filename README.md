@@ -6,8 +6,10 @@
 - [Utilisation](#utilisation)
 - [Contribuer](#contribuer)
 - [Licence](#licence)
-- [Mise en place du projet Django](#ProjetDjango)
+- [Mise en place du projet Django](#projet_django)
 - [ETL des Données de Flux depuis un CSV](#ETL_ODS_Flux.py)
+- [Modèle Flux](#models_Flux.py)
+- [Views Flux](#views_Flux.py)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -29,7 +31,7 @@ De nombreux cours théoriques et pratiques sont réalisés pour consolider notre
 ## Licence <a name="licence"></a>
 Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
-# Mise en place du projet Django <a name="ProjetDjango"></a>
+# Mise en place du projet Django <a name="projet_django"></a>
 
 ### Création d’un nouveau repository GitHub
 - Démarrez en créant un nouveau repository GitHub. Dans cet exemple, le repository est nommé Pharma_post.
@@ -87,11 +89,11 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 Ce script Python, `ETL_ODS_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV vers la base de données Django en utilisant le modèle `Flux`.
 
-### Introduction <a name="introduction_ETL_ODS_Flux.py"></a>
+### Introduction
 
 Le script utilise Pandas pour lire un fichier CSV contenant des données sur les flux, puis les charge dans la base de données Django via le modèle `Flux`.
 
-### Fonctionnalités <a name="fonctionnalites_ETL_ODS_Flux.py"></a>
+### Fonctionnalités
 
 - **Chargement du CSV**:<br>
   Le script charge le fichier CSV `flux-total-dep.csv` dans un DataFrame Pandas.
@@ -108,19 +110,20 @@ Le script utilise Pandas pour lire un fichier CSV contenant des données sur les
 - **Récupération des Données Après l'Insertion**:<br>
   Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas après l'opération `bulk_create`.
 
-### Utilisation <a name="utilisation_ETL_ODS_Flux.py"></a>
+### Utilisation
 
 1. Assurez-vous d'avoir un fichier CSV nommé `flux-total-dep.csv` dans le répertoire `data`.
 2. Exécutez le script `ETL_ODS_Flux.py`.
 
-### Particularités <a name="particularites_ETL_ODS_Flux.py"></a>
+### Particularités
 
 - **Optimisation des Performances**:<br>
   Le script utilise `bulk_create` pour optimiser l'insertion en bloc des objets `Flux` dans la base de données.
 
 - **Utilisation de Django ORM**:<br>
   Les opérations de troncature, création d'objets et insertion sont effectuées en utilisant les fonctionnalités de Django ORM.
-# Modèle Django - Flux
+
+# Modèle Flux <a name="models_Flux"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données d'un flux. Ce modèle, appelé `Flux`, est utilisé pour structurer les informations extraites du fichier "flux-total". Les attributs du modèle correspondent aux différentes données du flux, telles que le code de la région, le libellé de la région, le code du département, le libellé du département, la date de fin de la semaine, le type de vaccin, le nombre d'unités de consommation directe du vaccin et le nombre total de doses du vaccin.
 

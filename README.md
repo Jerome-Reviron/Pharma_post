@@ -48,7 +48,7 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 ### Création du fichier requirements.txt à la racine
 - Créez un fichier requirements.txt à la racine du projet avec le contenu suivant :<br>
-![requirements](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/requirements.png)
+![requirements](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/requirments.png)
 
 ### Commandes pour créer le projet Django
 1. Exécutez la commande suivante pour créer un projet Django nommé Pharma_post : django-admin startproject Pharma_post

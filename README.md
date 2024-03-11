@@ -6,7 +6,7 @@
 - [Utilisation](#utilisation)
 - [Contribuer](#contribuer)
 - [Licence](#licence)
-- [Mise en place du projet Django](#projetdjango)
+- [Mise en place du projet Django](#ProjetDjango)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>

@@ -8,8 +8,8 @@
 - [Licence](#licence)
 - [Mise en place du projet Django](#projet_django)
 - [ETL des Données de Flux depuis un CSV](#ETL_ODS_Flux.py)
-- [Modèle Django - Flux](#models_Flux.py)
-- [Vue Django - ETL_ODS_Flux](#views_ETL_ODS_Flux.py)
+- [Modèle Django - Flux](#models_Flux)
+- [Vue Django - ETL_ODS_Flux](#views_ETL_ODS_Flux)
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>

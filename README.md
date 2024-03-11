@@ -44,11 +44,11 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 ### Création du fichier docker-compose.yml à la racine
 - Créez un fichier docker-compose.yml à la racine du projet avec un contenu de base.<br>
-![docker-compose](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/docker-compose.png)
+![docker-compose](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/docker-compose.png)
 
 ### Création du fichier requirements.txt à la racine
 - Créez un fichier requirements.txt à la racine du projet avec le contenu suivant :<br>
-![requirements](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/requirements.png)
+![requirements](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/requirements.png)
 
 ### Commandes pour créer le projet Django
 1. Exécutez la commande suivante pour créer un projet Django nommé Pharma_post : django-admin startproject Pharma_post
@@ -74,8 +74,10 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 #### Commande settings.py
 
-![settings_path](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/settings_path.png)<br>
-![settings_installed_app](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/settings_installed_app.png)<br>
-![settings_root_templates](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/settings_root_templates.png)<br>
-![settings_databases](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/settings_databases.png)<br>
-![settings_static](https://github.com/Jerome-Reviron/Rugby/blob/main/images_documentation/settings_static.png)<br>
+![settings_path](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_DIR.png)<br>
+![settings_installed_app](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_INSTALLED_APPS.png)<br>
+![settings_root_templates](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_MIDDLEWARE.png)<br>
+![settings_databases](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_TEMPLATES.png)<br>
+![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_DATABASES.png)<br>
+![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_STATIC.png)<br>
+![settings_static](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_CONNEXION_API.png)<br>

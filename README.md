@@ -72,7 +72,7 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 3. python manage.py makemigrations
 4. python manage.py migrate
 
-#### Commande settings.py
+### Création settings.py
 
 ![settings_path](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_DIR.png)<br>
 ![settings_installed_app](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_INSTALLED_APPS.png)<br>

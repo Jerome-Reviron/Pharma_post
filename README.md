@@ -89,10 +89,10 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 # ETL des Données ODS depuis un CSV <a name="ETL_ODS_Flux.py"></a>
 
-## Introduction:
+### Introduction:
 Ce script Python réalise le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV (`flux-total-dep.csv`) vers une base de données Django. Les données représentent des flux de vaccins, et le modèle Django utilisé est appelé `Flux`. Les étapes comprennent le chargement du fichier CSV, la troncature de la table `Flux`, la création d'objets `Flux` à partir des données du CSV, l'insertion en bloc dans la base de données à l'aide de `bulk_create`, et enfin, la récupération des données après l'insertion.
 
-## Étapes détaillées:
+### Étapes détaillées:
 
 1. Chargement du fichier CSV dans un DataFrame Pandas:
 Le script utilise la bibliothèque Pandas pour lire le fichier CSV (`flux-total-dep.csv`) dans un DataFrame appelé `df`. Il spécifie le délimiteur, l'encodage et demande de ne pas traiter les valeurs manquantes comme des NaN.<br>
@@ -114,7 +114,7 @@ Le script affiche des messages indiquant le nombre de lignes chargées depuis le
 
 7. Exécution du script:
 Le script est exécuté si le fichier est lancé en tant que script principal (`__name__ == "__main__"`).<br>
-=======
+
 # ETL des Données de Flux depuis un CSV <a name="ETL_ODS_Flux.py"></a>
 
 Ce script Python, `ETL_ODS_Flux.py`, effectue le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV vers la base de données Django en utilisant le modèle `Flux`.
@@ -211,11 +211,11 @@ Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_ODS_Fl
 
 # ETL des Données DWH depuis DataFrame df_flux <a name="ETL_DWH_Flux.py"></a>
 
-## Introduction
+### Introduction
 
 Ce script Python réalise un processus d'Extraction, Transformation et Chargement (ETL) des données à partir d'un DataFrame Pandas vers une base de données Django. Le modèle de données Django utilisé comprend les tables `Flux`, `D_TYPE_VACCIN`, `D_DATE`, `D_LOCATION`, et `F_FLUX`. Les données en question représentent des flux de vaccins, et le script effectue diverses opérations pour préparer et insérer ces données dans la base de données Django.
 
-## Étapes détaillées
+### Étapes détaillées
 
 1. Chargement des DataFrames pour flux
 Les données de la table `Flux` de la base de données sont extraites sous forme de dictionnaires à l'aide de la méthode `values()`.

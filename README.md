@@ -481,7 +481,7 @@ Le fichier `ETL_DWH_F_FLUX.html` suit la même structure que l'interface du fich
 ### Étape 1: Installation de Bootstrap
 
 Tout d'abord, ajoutez le lien vers la feuille de style Bootstrap dans votre fichier HTML. Vous pouvez le faire en ajoutant la ligne suivante dans la section `<head>` de votre fichier HTML.<br>
-Lien: 
+
 link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css".
 
 Cette ligne permet à votre projet Django d'accéder aux styles prédéfinis de Bootstrap.
@@ -491,10 +491,10 @@ Cette ligne permet à votre projet Django d'accéder aux styles prédéfinis de 
 1. Créez un dossier `static` dans votre projet Django. Assurez-vous qu'il est situé à la racine du projet.
 
 2. Créez un fichier `styles.css` dans le dossier `static`. Ce fichier contiendra vos règles CSS personnalisées comme les import de font_google.<br>
-Liens: 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap');<br>
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap');<br>
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400..700&display=swap');<br>
 
 ### Étape 3: Configuration des Paramètres Django
 

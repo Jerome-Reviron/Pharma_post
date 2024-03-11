@@ -26,6 +26,11 @@
 - [API Django - serializers.py](#API_serializers.py)
 - [API Django Authentification - views_auth.py](#API_views_auth.py)
 - [API Django Authentification - LoginSerializers](#API_LoginSerializers)
+- [API Django Authentification - login.html](#API_login.html)
+- [API Django Authentification - views_register.py](#API_views_register.py)
+- [API Django Authentification - register.html](#API_register.html)
+- [API Django Authentification - views_out.py](#API_views_out.py)
+
 
 # API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>
 
@@ -594,11 +599,11 @@ Dans votre cas, vous utilisez le module `serializers` de Django REST Framework p
 
 L'utilisation de sérialiseurs dans Django REST Framework est une pratique courante pour construire des APIs robustes et flexibles.
 
-# API Django Authentification - `views_auth.py` <a name="API_Views_auth.py"></a>
+# API Django Authentification - `views_auth.py` <a name="API_views_auth.py"></a>
 
 Le fichier `views_auth.py` de votre projet Django gère l'authentification des utilisateurs. Voici une brève description de son contenu :
 
-## `LoginView` Class
+## Class `LoginView`
 
 La classe `LoginView` hérite de `TemplateView` de Django, permettant d'afficher un modèle HTML. Cette classe gère le processus d'authentification.
 
@@ -615,7 +620,7 @@ La méthode `post` gère les requêtes POST, principalement utilisées pour la s
 3. Si l'authentification réussit, elle crée un token d'authentification pour l'utilisateur.
 4. Renvoie une réponse JSON contenant le token en cas de succès, ou les erreurs en cas d'échec.
 
-## Utilisation des Classes et Modules
+### Utilisation des Classes et Modules
 
 - `TemplateView`: Classe de Django pour afficher des modèles HTML.
 - `render`: Fonction de Django pour générer une réponse HTTP avec le contenu HTML.
@@ -629,7 +634,7 @@ Cette classe facilite le processus d'authentification dans votre application Dja
 
 Le fichier `serializers.py` de votre projet Django contient un sérialiseur spécifique, `LoginSerializer`, utilisé pour valider les informations de connexion d'un utilisateur.
 
-## `LoginSerializer` Class
+## Class `LoginSerializer` 
 
 La classe `LoginSerializer` hérite du sérialiseur de Django REST Framework et est conçue pour traiter les informations de connexion, telles que le nom d'utilisateur (`username`) et le mot de passe (`password`).
 
@@ -650,3 +655,131 @@ La méthode `validate` est définie pour effectuer la validation personnalisée 
 Si des erreurs sont détectées pendant la validation, des exceptions de type `serializers.ValidationError` sont levées.
 
 Ce sérialiseur est utilisé dans le processus d'authentification de la classe `LoginView` de votre fichier `views_auth.py`, contribuant ainsi à la sécurisation de l'accès à votre application.
+
+# API Django Authentification - `login.html` <a name="API_login.html"></a>
+
+Le fichier `login.html` de votre projet Django représente la page de connexion à l'interface d'administration. Voici une description détaillée de son contenu :
+
+### Structure HTML
+- La balise `<head>` contient des méta-informations, des liens vers des feuilles de style externes (Font Awesome et votre fichier `styles.css`), et le titre de la page.
+- La balise `<body>` contient la structure du formulaire de connexion.
+
+### Contenu du Formulaire
+- Un ensemble d'icônes stylisées avec des couleurs spécifiées (`--clr`) pour un design visuel.
+- Un formulaire avec la classe `Log` et l'ID `login-form` qui sera soumis à la validation lorsqu'un utilisateur tente de se connecter.
+- Les champs du formulaire comprennent un champ pour le nom d'utilisateur (`username`) et un champ pour le mot de passe (`password`).
+- Un bouton "Valider" (`Btn_login`) qui soumet le formulaire.
+
+### Utilisation de JavaScript
+- Un script JavaScript à la fin du fichier permet de gérer la soumission du formulaire.
+- Lorsqu'un utilisateur soumet le formulaire, le script récupère les valeurs des champs, le jeton CSRF, et effectue une requête POST à l'URL `http://localhost:8000/api/login/`.
+- En cas de succès, l'utilisateur est redirigé vers `http://localhost:8000/`.
+- En cas d'échec, des messages d'erreur sont affichés dans la console du navigateur.
+
+### Bouton de Retour
+- Un lien avec la classe `Btn_back1` permet de revenir à la page d'accueil en cliquant sur le bouton.
+
+Ce fichier facilite l'interaction de l'utilisateur avec le processus d'authentification et ajoute des éléments visuels attrayants à la page de connexion. Vous avez également implémenté une gestion des erreurs côté client pour une meilleure expérience utilisateur.
+
+# API Django Authentification - `views_register.py` <a name="API_views_register.py"></a>
+
+Le fichier "views_register.py" contient la classe "RegisterView", une vue Django chargée de gérer l'inscription d'un nouvel utilisateur en tant qu'administrateur.
+
+## Class `RegisterView`
+
+### Propriétés
+- `template_name` : Nom du modèle HTML utilisé pour l'affichage du formulaire d'inscription.
+- `form_class` : Classe du formulaire utilisé pour la création d'un nouvel utilisateur. Dans ce cas, il s'agit de "CustomUserCreationForm".
+
+### Méthode GET
+La méthode GET est invoquée lorsqu'un utilisateur accède à la page d'inscription. Elle effectue les actions suivantes :
+- Vérifie si l'utilisateur est déjà authentifié et s'il est un administrateur.
+- Si c'est le cas, affiche le formulaire d'inscription pour un nouvel administrateur.
+- Si l'utilisateur n'est pas authentifié ou n'est pas un administrateur, redirige vers la page de connexion.
+
+### Méthode POST
+La méthode POST est invoquée lorsque le formulaire d'inscription est soumis. Elle effectue les actions suivantes :
+- Vérifie à nouveau l'authentification et les privilèges administratifs de l'utilisateur.
+- Valide le formulaire d'inscription avec les données fournies.
+- Si le formulaire est valide, crée un nouvel utilisateur avec les droits d'administrateur et génère un token d'authentification.
+- Retourne une réponse JSON avec un message de succès et le token en cas de réussite.
+- En cas d'erreur, renvoie une réponse JSON avec les erreurs de formulaire.
+
+Cette classe assure la création d'un nouvel administrateur à partir du formulaire d'inscription, avec des vérifications de sécurité pour s'assurer que l'accès est limité aux administrateurs déjà authentifiés.
+
+
+# API Django Authentification - `register.html` <a name="API_register.html"></a>
+
+Ce fichier représente le formulaire d'inscription (register) d'une application Django. Il permet aux utilisateurs de créer un compte en fournissant un nom d'utilisateur, une adresse e-mail, et un mot de passe.
+
+### HTML Form
+
+Le fichier contient une balise `<form>` HTML avec les champs suivants :
+- `Nom d'utilisateur` : Pour saisir le nom d'utilisateur.
+- `Email` : Pour saisir l'adresse e-mail.
+- `Mot de passe` : Pour saisir le mot de passe.
+- `Confirmez le mot de passe` : Pour confirmer le mot de passe.
+
+### Styles et Icônes
+
+Le formulaire est stylisé à l'aide de classes CSS et d'icônes Font Awesome pour une présentation visuelle attrayante.
+
+### Soumission du Formulaire
+
+Lorsque l'utilisateur remplit le formulaire et le soumet, une requête POST est effectuée vers l'URL 'http://localhost:8000/api/register/'. Les données du formulaire, telles que le nom d'utilisateur, l'e-mail et les mots de passe, sont envoyées au serveur.
+
+### JavaScript
+
+Le fichier inclut également du code JavaScript pour gérer la soumission du formulaire via une requête Fetch. Il récupère les valeurs des champs du formulaire, crée un objet FormData, et envoie les données au serveur. En cas de succès, l'utilisateur est redirigé vers 'http://localhost:8000/'. En cas d'erreur, des messages d'erreur sont affichés dans la console.
+
+### Bouton de Retour
+
+Un bouton de retour est inclus, permettant à l'utilisateur de revenir à la page d'accueil du site.
+
+# API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>
+
+# Class `LogoutView`
+
+La classe "LogoutView" représente une vue Django chargée de gérer la déconnexion d'un utilisateur. Elle hérite de la classe générique "TemplateView" de Django.
+
+## Méthode GET
+
+La classe définit une méthode GET qui est invoquée lorsqu'un utilisateur accède à la page de déconnexion. À ce stade, la méthode effectue les actions suivantes :
+- Appelle la fonction `logout(request)` pour déconnecter l'utilisateur actuellement authentifié.
+- Redirige l'utilisateur vers la page d'accueil du site en utilisant `return redirect('/')`.
+
+## Fonctionnalité de Déconnexion
+
+L'objectif principal de cette classe est de fournir une fonctionnalité simple et propre de déconnexion pour les utilisateurs connectés. La déconnexion est réalisée en appelant la fonction `logout(request)`, qui met fin à la session de l'utilisateur.
+
+## Redirection vers la Page d'Accueil
+
+Après la déconnexion réussie, l'utilisateur est redirigé vers la page d'accueil du site pour une meilleure expérience utilisateur.
+
+Note : Assurez-vous que l'URL '/' dans `return redirect('/')` correspond à l'URL de la page d'accueil de votre application Django.
+
+Cette classe peut être utilisée en conjonction avec un lien ou un bouton de déconnexion dans votre interface utilisateur pour permettre aux utilisateurs de se déconnecter de manière sécurisée.
+
+# API Django Authentification - `views_out.py` <a name="API_views_out.py"></a>
+
+# Class `LogoutView`
+
+La classe "LogoutView" représente une vue Django chargée de gérer la déconnexion d'un utilisateur. Elle hérite de la classe générique "TemplateView" de Django.
+
+## Méthode GET
+
+La classe définit une méthode GET qui est invoquée lorsqu'un utilisateur accède à la page de déconnexion. À ce stade, la méthode effectue les actions suivantes :
+- Appelle la fonction `logout(request)` pour déconnecter l'utilisateur actuellement authentifié.
+- Redirige l'utilisateur vers la page d'accueil du site en utilisant `return redirect('/')`.
+
+## Fonctionnalité de Déconnexion
+
+L'objectif principal de cette classe est de fournir une fonctionnalité simple et propre de déconnexion pour les utilisateurs connectés. La déconnexion est réalisée en appelant la fonction `logout(request)`, qui met fin à la session de l'utilisateur.
+
+## Redirection vers la Page d'Accueil
+
+Après la déconnexion réussie, l'utilisateur est redirigé vers la page d'accueil du site pour une meilleure expérience utilisateur.
+
+Note : Assurez-vous que l'URL '/' dans `return redirect('/')` correspond à l'URL de la page d'accueil de votre application Django.
+
+Cette classe peut être utilisée en conjonction avec un lien ou un bouton de déconnexion dans votre interface utilisateur pour permettre aux utilisateurs de se déconnecter de manière sécurisée.

@@ -11,6 +11,15 @@
 - [Modèle Django - Flux](#models_Flux)
 - [Vue Django - ETL_ODS_Flux](#views_ETL_ODS_Flux)
 - [ETL des Données DWH depuis DataFrame df_flux](#ETL_DWH_Flux.py)
+- [Modèle Django - D_TYPE_VACCIN](#models_D_TYPE_VACCIN)
+- [Modèle Django - D_DATE](#models_D_DATE)
+- [Modèle Django - D_LOCATION](#models_D_LOCATION)
+- [Modèle Django - F_FLUX](#models_F_FLUX)
+- [Vue Django - ETL_DWH_D_TYPE_VACCIN](#views_ETL_DWH_D_TYPE_VACCIN)
+- [Vue Django - ETL_DWH_D_DATE](#views_ETL_DWH_D_DATE)
+- [Vue Django - ETL_DWH_D_LOCATION](#views_ETL_DWH_D_LOCATION)
+- [Vue Django - ETL_ODS_Flux](#views_ETL_ODS_Flux)
+
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
@@ -214,3 +223,188 @@ Une liste d'objets `F_FLUX` est créée à partir des lignes triées du DataFram
 Toutes les entrées existantes dans la table `F_FLUX` sont supprimées.
 Les objets `F_FLUX` sont insérés en bloc dans la base de données avec une transaction atomique pour garantir l'intégrité.
 Des messages de progression sont affichés pendant l'insertion.<br>
+
+# Modèle Django - D_TYPE_VACCIN <a name="models_D_TYPE_VACCIN"></a>
+
+Le fichier `models.py` contient la définition du modèle Django pour représenter les données des types de vaccins dans le Data Warehouse (DWH). Ce modèle, appelé `D_TYPE_VACCIN`, est utilisé pour structurer les informations relatives aux différents types de vaccins.
+
+### Introduction
+
+Le modèle `D_TYPE_VACCIN` définit les types de vaccins dans le Data Warehouse. Chaque enregistrement représente un type de vaccin avec son libellé.
+
+### Fonctionnalités
+
+- Attributs :
+  - `vaccinlabel` (str): Libellé du type de vaccin.
+  
+### Utilisations
+
+Le modèle `D_TYPE_VACCIN` est utilisé dans le Data Warehouse pour organiser et représenter les informations sur les types de vaccins.
+
+# Modèle Django - D_DATE <a name="models_D_DATE"></a>
+
+Le fichier `models.py` contient la définition du modèle Django pour représenter les données des dates de fin de semaine dans le Data Warehouse (DWH). Ce modèle, appelé `D_DATE`, est utilisé pour structurer les informations relatives aux différentes dates de fin de semaine.
+
+### Introduction
+
+Le modèle `D_DATE` définit les dates de fin de semaine dans le Data Warehouse. Chaque enregistrement représente une date de fin de semaine.
+
+### Fonctionnalités
+
+- Attributs :
+  - `date_fin_semaine` (Date): Date de fin de semaine, utilisée comme clé primaire.
+  
+### Utilisations
+
+Le modèle `D_DATE` est utilisé dans le Data Warehouse pour organiser et représenter les informations sur les dates de fin de semaine.
+
+# Modèle Django - D_LOCATION <a name="models_D_LOCATION"></a>
+
+Le fichier `models.py` contient la définition du modèle Django pour représenter les données de localisation dans le Data Warehouse (DWH). Ce modèle, appelé `D_LOCATION`, est utilisé pour structurer les informations relatives aux emplacements.
+
+### Introduction
+
+Le modèle `D_LOCATION` définit les informations de localisation dans le Data Warehouse. Chaque enregistrement représente une combinaison de code de région et de code de département.
+
+### Fonctionnalités
+
+- Attributs :
+  - `code_region_code_departement` (str): Clé primaire concaténée de `code_region` et `code_departement`.
+  - `code_region` (int): Code de la région.
+  - `code_departement` (str): Code du département.
+  - `libelle_region` (str): Libellé de la région.
+  - `libelle_departement` (str): Libellé du département.
+  
+- Méthode `save` : Surcharge de la méthode save pour concaténer les champs et créer la clé primaire.
+
+### Utilisations
+
+Le modèle `D_LOCATION` est utilisé dans le Data Warehouse pour organiser et représenter les informations de localisation.
+
+# Modèle Django - F_FLUX <a name="models_F_FLUX"></a>
+
+Le fichier `models.py` contient la définition du modèle Django pour représenter les données des flux de vaccins dans le Data Warehouse (DWH). Ce modèle, appelé `F_FLUX`, est utilisé pour structurer les informations relatives aux flux de vaccins.
+
+### Introduction
+
+Le modèle `F_FLUX` définit les flux de vaccins dans le Data Warehouse. Chaque enregistrement représente un flux avec des informations telles que le type de vaccin, la date de fin de semaine, la localisation, le nombre d'unités de consommation, et le nombre total de doses.
+
+### Fonctionnalités
+
+- Attributs :
+  - `PK_F_FLUX` (str): Clé primaire concaténée de plusieurs champs.
+  - `D_TYPE_VACCIN` (ForeignKey): Clé étrangère vers `D_TYPE_VACCIN`.
+  - `D_DATE` (ForeignKey): Clé étrangère vers `D_DATE`.
+  - `D_LOCATION` (ForeignKey): Clé étrangère vers `D_LOCATION`.
+  - `nb_ucd` (float): Nombre d'unités de consommation.
+  - `nb_doses` (float): Nombre de doses.
+  
+- Méthode `save` : Surcharge de la méthode save pour concaténer les champs et créer la clé primaire.
+
+### Utilisations
+
+Le modèle `F_FLUX` est utilisé dans le Data Warehouse pour organiser et représenter les informations sur les flux de vaccins.
+
+# Vue Django - ETL_DWH_D_TYPE_VACCIN <a name="views_ETL_DWH_D_TYPE_VACCIN"></a>
+
+Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_D_TYPE_VACCIN` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données des types de vaccins dans le système Django.
+
+### Introduction
+
+La fonction `ETL_DWH_D_TYPE_VACCIN` récupère tous les libellés de types de vaccins de la base de données Django, applique une pagination pour afficher un nombre limité de types de vaccins par page, puis rend la page `ETL_DWH_D_TYPE_VACCIN.html` avec le contexte contenant les types de vaccins paginés.
+
+### Fonctionnalités
+
+- **Extraction des Types de Vaccins de la Base de Données :** Utilisation de la requête `D_TYPE_VACCIN.objects.all()` pour extraire tous les libellés de types de vaccins de la base de données.
+
+- **Pagination des Types de Vaccins :** Application de la pagination pour afficher un nombre limité de types de vaccins par page, facilitant la navigation pour l'utilisateur.
+
+- **Gestion des Pages :** Gestion des situations liées à la pagination, garantissant une expérience utilisateur sans accroc.
+
+- **Rendu du Contexte :** Préparation d'un contexte contenant les types de vaccins paginés pour être rendu sur la page `ETL_DWH_D_TYPE_VACCIN.html`.
+
+### Utilisations
+
+La fonction `ETL_DWH_D_TYPE_VACCIN` est essentielle pour permettre à l'utilisateur de visualiser les types de vaccins paginés extraits de la base de données, facilitant ainsi le suivi et l'analyse des données sur les vaccins.
+
+### Particularités
+
+Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_D_TYPE_VACCIN` dans ce contexte.
+
+# Vue Django - ETL_DWH_D_DATE <a name="views_ETL_DWH_D_DATE"></a>
+
+Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_D_DATE` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données des dates dans le système Django.
+
+### Introduction
+
+La fonction `ETL_DWH_D_DATE` récupère toutes les dates de la base de données Django, applique une pagination pour afficher un nombre limité de dates par page, puis rend la page `ETL_DWH_D_DATE.html` avec le contexte contenant les dates paginées.
+
+### Fonctionnalités
+
+- **Extraction des Dates de la Base de Données :** Utilisation de la requête `D_DATE.objects.all()` pour extraire toutes les dates de la base de données.
+
+- **Pagination des Dates :** Application de la pagination pour afficher un nombre limité de dates par page, facilitant la navigation pour l'utilisateur.
+
+- **Gestion des Pages :** Gestion des situations liées à la pagination, garantissant une expérience utilisateur sans accroc.
+
+- **Rendu du Contexte :** Préparation d'un contexte contenant les dates paginées pour être rendu sur la page `ETL_DWH_D_DATE.html`.
+
+### Utilisations
+
+La fonction `ETL_DWH_D_DATE` est essentielle pour permettre à l'utilisateur de visualiser les dates paginées extraites de la base de données, facilitant ainsi le suivi et l'analyse des données temporelles.
+
+### Particularités
+
+Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_D_DATE` dans ce contexte.
+
+# Vue Django - ETL_DWH_D_LOCATION <a name="views_ETL_DWH_D_LOCATION"></a>
+
+Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_D_LOCATION` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données de localisation dans le système Django.
+
+### Introduction
+
+La fonction `ETL_DWH_D_LOCATION` récupère toutes les localisations de la base de données Django, applique une pagination pour afficher un nombre limité de localisations par page, puis rend la page `ETL_DWH_D_LOCATION.html` avec le contexte contenant les localisations paginées.
+
+### Fonctionnalités
+
+- **Extraction des Localisations de la Base de Données :** Utilisation de la requête `D_LOCATION.objects.all()` pour extraire toutes les localisations de la base de données.
+
+- **Pagination des Localisations :** Application de la pagination pour afficher un nombre limité de localisations par page, facilitant la navigation pour l'utilisateur.
+
+- **Gestion des Pages :** Gestion des situations liées à la pagination, garantissant une expérience utilisateur sans accroc.
+
+- **Rendu du Contexte :** Préparation d'un contexte contenant les localisations paginées pour être rendu sur la page `ETL_DWH_D_LOCATION.html`.
+
+### Utilisations
+
+La fonction `ETL_DWH_D_LOCATION` est essentielle pour permettre à l'utilisateur de visualiser les localisations paginées extraites de la base de données, facilitant ainsi le suivi et l'analyse des données de localisation.
+
+### Particularités
+
+Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_D_LOCATION` dans ce contexte.
+
+# Vue Django - ETL_DWH_F_FLUX <a name="views_ETL_DWH_F_FLUX"></a>
+
+Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_F_FLUX` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données des flux de vaccins dans le système Django.
+
+### Introduction
+
+La fonction `ETL_DWH_F_FLUX` récupère tous les flux de vaccins de la base de données Django, applique une pagination pour afficher un nombre limité de flux par page, puis rend la page `ETL_DWH_F_FLUX.html` avec le contexte contenant les flux paginés.
+
+### Fonctionnalités
+
+- **Extraction des Flux de la Base de Données :** Utilisation de la requête `F_FLUX.objects.all()` pour extraire tous les flux de vaccins de la base de données.
+
+- **Pagination des Flux :** Application de la pagination pour afficher un nombre limité de flux par page, facilitant la navigation pour l'utilisateur.
+
+- **Gestion des Pages :** Gestion des situations liées à la pagination, garantissant une expérience utilisateur sans accroc.
+
+- **Rendu du Contexte :** Préparation d'un contexte contenant les flux paginés pour être rendu sur la page `ETL_DWH_F_FLUX.html`.
+
+### Utilisations
+
+La fonction `ETL_DWH_F_FLUX` est essentielle pour permettre à l'utilisateur de visualiser les flux paginés extraits de la base de données, facilitant ainsi le suivi et l'analyse des données sur les flux de vaccins.
+
+### Particularités
+
+Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_F_FLUX` dans ce contexte.

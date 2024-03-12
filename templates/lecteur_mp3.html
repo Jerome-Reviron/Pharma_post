@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Jarvis</title>
+</head>
+<body class="mp3">
+    <video id="background-video" autoplay loop muted>
+        <source src="{% static 'video/Jarvis.mp4' %}" type="video/mp4">
+    </video>
+    <div class="radio">
+        <audio controls preload="none">
+            <source src="{% static 'audio/message.mp3' %}" type="audio/mp3">
+        </audio>
+    </div>
+    <script>
+        var audioWrap = $(".radio"),
+            audioEl = audioWrap.find("audio"),
+            audio = audioEl.get(0);
+
+        setupAudio();
+
+        function setupAudio() {
+            if (audio.buffered === undefined) return;
+
+            audioEl.addClass("inactive");
+            audioWrap.append(
+                '<button type="button" class="toggle"></button>' +
+                '<span class="time">0:00</span>' +
+                '<input type="range" class="progress" value="0" max="" disabled/>' +
+                '<button type="button" class="mute hidden"></button>' +
+                '<input type="range" class="volume hidden" value="100" max="100"/>'
+            );
+
+            audioWrap.find(".toggle").on("click", $.proxy(togglePlay, this));
+            audioWrap.find(".mute").on("click", $.proxy(muteSound, this));
+            audioWrap.find(".progress").on("input change", $.proxy(updateProgress, this));
+            audioWrap.find(".volume").on("input change", $.proxy(updateVolume, this));
+
+            audioEl.on("timeupdate", $.proxy(updateTime, this));
+        }
+
+        function formatTime(time) {
+            var hours = parseInt(time / (60 * 60) % 24);
+
+            hours = hours > 0 ? padZero(hours) + ":" : "";
+
+            return (
+                    hours +
+                    padZero(parseInt(time / 60 % 60)) +
+                    ":" +
+                    padZero(parseInt(time % 60))
+            );
+        }
+
+        function muteSound() {
+            audio.muted = true;
+
+            audioWrap.find(".mute").addClass("muted");
+            audioWrap.find(".volume").val(0);
+        }
+
+        function padZero(value) {
+            return value < 10 ? "0" + value : value;
+        }
+
+        function pauseSound() {
+            audioWrap.find(".toggle").removeClass("playing");
+            audio.pause();
+        }
+
+        function playSound() {
+            audioWrap.find(".toggle").addClass("playing");
+            audio.play();
+        }
+
+        function togglePlay(e) {
+            if (audio.paused && !audio.ended) {
+                playSound();
+            } else if (audio.paused && audio.ended) {
+                audio.currentTime = 0;
+
+                playSound();
+            } else {
+                pauseSound();
+            }
+
+            audioWrap.find(".mute,.volume").removeClass("hidden");
+            audioWrap.find(".progress").removeAttr("disabled");
+        }
+
+        function unmuteSound() {
+            audioWrap.find(".mute").removeClass("muted");
+            audio.muted = false;
+        }
+
+        function updateProgress(e) {
+            audio.currentTime = $(e.target).val();
+        }
+
+        function updateTime() {
+            var total = formatTime(audio.duration),
+            current = formatTime(audio.currentTime);
+
+            audioWrap.find(".time").text(current + "/" + total);
+            audioWrap
+                .find(".progress")
+                .val(audio.currentTime)
+                .attr("max", audio.duration);
+
+            if (audio.ended) pauseSound();
+        }
+
+        function updateVolume(e) {
+            audio.volume = $(e.target).val() / 100;
+
+            audio.volume === 0 ? muteSound() : unmuteSound();
+        }
+    </script>
+</body>
+</html>

@@ -6,6 +6,10 @@ from app.models import Flux, D_DATE, D_TYPE_VACCIN, D_LOCATION, F_FLUX
 def index(request):
     return render(request, 'index.html')
 
+def lecteur_mp3(request):
+    return render(request, 'lecteur_mp3.html')
+
+
 def ETL_ODS_Flux(request):
     # Récupérer tous les Fluxs
     all_fluxs = Flux.objects.all()

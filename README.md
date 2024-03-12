@@ -31,6 +31,8 @@
 - [API Django Authentification - register.html](#API_register.html)
 - [API Django Authentification - views_out.py](#API_views_out.py)
 - [API Django Authentification - tests.py](#API_tests.py)
+- [Serveur Discord - Guide](#Guide)
+- [Interface UI - lecteur_mp3](#lecteur_mp3)
 
 
 # API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>

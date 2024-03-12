@@ -114,6 +114,8 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 ### Introduction:
 Ce script Python réalise le processus d'Extraction, Transformation et Chargement (ETL) des données contenues dans un fichier CSV (`flux-total-dep.csv`) vers une base de données Django. Les données représentent des flux de vaccins, et le modèle Django utilisé est appelé `Flux`. Les étapes comprennent le chargement du fichier CSV, la troncature de la table `Flux`, la création d'objets `Flux` à partir des données du CSV, l'insertion en bloc dans la base de données à l'aide de `bulk_create`, et enfin, la récupération des données après l'insertion.
 
+![Script_ETL_ODS_Flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Script_ETL_ODS_Flux.png)<br>
+
 ### Étapes détaillées:
 
 1. **Chargement du fichier CSV dans un DataFrame Pandas:**
@@ -188,15 +190,15 @@ Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ET
 
 La fonction `ETL_ODS_Flux` est essentielle pour permettre à l'utilisateur de visualiser les flux paginés extraits de la base de données, facilitant ainsi le suivi et l'analyse des données.
 
-### Particularités
-
-Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_ODS_Flux` dans ce contexte.
+![db_sqlite3_table_app_flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/db_sqlite3_table_app_flux.png)<br>
 
 # ETL des Données DWH depuis DataFrame df_flux <a name="ETL_DWH_Flux.py"></a>
 
 ### Introduction
 
 Ce script Python réalise un processus d'Extraction, Transformation et Chargement (ETL) des données à partir d'un DataFrame Pandas vers une base de données Django. Le modèle de données Django utilisé comprend les tables `Flux`, `D_TYPE_VACCIN`, `D_DATE`, `D_LOCATION`, et `F_FLUX`. Les données en question représentent des flux de vaccins, et le script effectue diverses opérations pour préparer et insérer ces données dans la base de données Django.
+
+![Draw.io_MCD](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Draw.io_MCD.png)<br>
 
 ### Étapes détaillées
 
@@ -237,9 +239,15 @@ Toutes les entrées existantes dans la table `F_FLUX` sont supprimées.
 Les objets `F_FLUX` sont insérés en bloc dans la base de données avec une transaction atomique pour garantir l'intégrité.
 Des messages de progression sont affichés pendant l'insertion.<br>
 
+![Models_class_tables_dimensions](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Models_class_tables_dimensions.png)<br>
+
+![Model_class_table_fait](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Model_class_table_fait.png)<br>
+
 # Modèle Django - D_TYPE_VACCIN <a name="models_D_TYPE_VACCIN"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données des types de vaccins dans le Data Warehouse (DWH). Ce modèle, appelé `D_TYPE_VACCIN`, est utilisé pour structurer les informations relatives aux différents types de vaccins.
+
+![Page_ETL_DWH_D_TYPE_VACCIN](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_TYPE_VACCIN.png)<br>
 
 ### Introduction
 
@@ -255,6 +263,8 @@ Le modèle `D_TYPE_VACCIN` définit les types de vaccins dans le Data Warehouse.
 Le modèle `D_TYPE_VACCIN` est utilisé dans le Data Warehouse pour organiser et représenter les informations sur les types de vaccins.
 
 # Modèle Django - D_DATE <a name="models_D_DATE"></a>
+
+![Page_ETL_DWH_D_DATE](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_DATE.png)<br>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données des dates de fin de semaine dans le Data Warehouse (DWH). Ce modèle, appelé `D_DATE`, est utilisé pour structurer les informations relatives aux différentes dates de fin de semaine.
 
@@ -274,6 +284,8 @@ Le modèle `D_DATE` est utilisé dans le Data Warehouse pour organiser et repré
 # Modèle Django - D_LOCATION <a name="models_D_LOCATION"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données de localisation dans le Data Warehouse (DWH). Ce modèle, appelé `D_LOCATION`, est utilisé pour structurer les informations relatives aux emplacements.
+
+![Page_ETL_DWH_D_LOCATION](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_LOCATION.png)<br>
 
 ### Introduction
 
@@ -297,6 +309,8 @@ Le modèle `D_LOCATION` est utilisé dans le Data Warehouse pour organiser et re
 # Modèle Django - F_FLUX <a name="models_F_FLUX"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données des flux de vaccins dans le Data Warehouse (DWH). Ce modèle, appelé `F_FLUX`, est utilisé pour structurer les informations relatives aux flux de vaccins.
+
+![Page_ETL_DWH_F_FLUX](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_F_FLUX.png)<br>
 
 ### Introduction
 

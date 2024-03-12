@@ -545,9 +545,21 @@ Cette étape est cruciale pour que Django puisse localiser les fichiers statique
 
 Le fichier `views.py` de votre application Django met en œuvre une architecture générique pour les API en utilisant une classe de base, `BaseAPI`, et des classes dérivées spécifiques à chaque table de la base de données.
 
+![API_Operational_Data_Store_Flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Operational_Data_Store_Flux.png)<br>
+
+![API_Datawarehouse_D_DATE](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Datawarehouse_D_DATE.png)<br>
+
+![API_Datawarehouse_D_LOCATION](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Datawarehouse_D_LOCATION.png)<br>
+
+![API_Datawarehouse_D_TYPE_VACCIN](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Datawarehouse_D_TYPE_VACCIN.png)<br>
+
+![API_Datawarehouse_F_Flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Datawarehouse_F_Flux.png)<br>
+
 ## BaseAPI
 
 La classe `BaseAPI` agit comme une classe de base commune pour toutes les API de votre projet. Elle fournit des méthodes génériques pour les opérations CRUD, facilitant la gestion cohérente des différentes tables de la base de données.
+
+![BaseAPI_APIView](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/BaseAPI_APIView.png)<br>
 
 ### Fonctionnalités principales
 
@@ -591,6 +603,8 @@ Chaque classe dérivée peut personnaliser les méthodes CRUD selon les besoins 
 
 Le fichier `serializers.py` est essentiel pour l'API Django, car il définit comment les objets Python (issus des modèles) doivent être convertis en JSON, et vice versa. Il assure la sérialisation et la désérialisation des données, permettant ainsi aux vues de traiter facilement les requêtes HTTP.
 
+![API_serializers](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_serializers.png)<br>
+
 ## Serializer Django REST Framework
 
 Dans votre cas, vous utilisez le module `serializers` de Django REST Framework pour créer des sérialiseurs spécifiques à chaque modèle de votre application.
@@ -631,6 +645,8 @@ L'utilisation de sérialiseurs dans Django REST Framework est une pratique coura
 
 Le fichier `views_auth.py` de votre projet Django gère l'authentification des utilisateurs. Voici une brève description de son contenu :
 
+![API_Views_auth](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Views_auth.png)<br>
+
 ## Class `LoginView`
 
 La classe `LoginView` hérite de `TemplateView` de Django, permettant d'afficher un modèle HTML. Cette classe gère le processus d'authentification.
@@ -662,6 +678,8 @@ Cette classe facilite le processus d'authentification dans votre application Dja
 
 Le fichier `serializers.py` de votre projet Django contient un sérialiseur spécifique, `LoginSerializer`, utilisé pour valider les informations de connexion d'un utilisateur.
 
+![LoginSerializers](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/LoginSerializers.png)<br>
+
 ## Class `LoginSerializer` 
 
 La classe `LoginSerializer` hérite du sérialiseur de Django REST Framework et est conçue pour traiter les informations de connexion, telles que le nom d'utilisateur (`username`) et le mot de passe (`password`).
@@ -688,6 +706,8 @@ Ce sérialiseur est utilisé dans le processus d'authentification de la classe `
 
 Le fichier `login.html` de votre projet Django représente la page de connexion à l'interface d'administration. Voici une description détaillée de son contenu :
 
+![Formulaire_de_connexion](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Formulaire_de_connexion.png)<br>
+
 ### Structure HTML
 - La balise `<head>` contient des méta-informations, des liens vers des feuilles de style externes (Font Awesome et votre fichier `styles.css`), et le titre de la page.
 - La balise `<body>` contient la structure du formulaire de connexion.
@@ -712,6 +732,8 @@ Ce fichier facilite l'interaction de l'utilisateur avec le processus d'authentif
 # API Django Authentification - `views_register.py` <a name="API_views_register.py"></a>
 
 Le fichier "views_register.py" contient la classe "RegisterView", une vue Django chargée de gérer l'inscription d'un nouvel utilisateur en tant qu'administrateur.
+
+![API_Views_register](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Views_register.png)<br>
 
 ## Class `RegisterView`
 
@@ -740,6 +762,8 @@ Cette classe assure la création d'un nouvel administrateur à partir du formula
 
 Ce fichier représente le formulaire d'inscription (register) d'une application Django. Il permet aux utilisateurs de créer un compte en fournissant un nom d'utilisateur, une adresse e-mail, et un mot de passe.
 
+![Formulaire_register_admin](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Formulaire_register_admin.png)<br>
+
 ### HTML Form
 
 Le fichier contient une balise `<form>` HTML avec les champs suivants :
@@ -764,11 +788,14 @@ Le fichier inclut également du code JavaScript pour gérer la soumission du for
 
 Un bouton de retour est inclus, permettant à l'utilisateur de revenir à la page d'accueil du site.
 
+
 # API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>
 
 # Class `LogoutView`
 
 La classe "LogoutView" représente une vue Django chargée de gérer la déconnexion d'un utilisateur. Elle hérite de la classe générique "TemplateView" de Django.
+
+![LoginSerializers](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/LoginSerializers.png)<br>
 
 ## Méthode GET
 
@@ -794,6 +821,8 @@ Cette classe peut être utilisée en conjonction avec un lien ou un bouton de d�
 
 La classe "LogoutView" représente une vue Django chargée de gérer la déconnexion d'un utilisateur. Elle hérite de la classe générique "TemplateView" de Django.
 
+![API_Views_out](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/API_Views_out.png)<br>
+
 ## Méthode GET
 
 La classe définit une méthode GET qui est invoquée lorsqu'un utilisateur accède à la page de déconnexion. À ce stade, la méthode effectue les actions suivantes :
@@ -815,6 +844,8 @@ Cette classe peut être utilisée en conjonction avec un lien ou un bouton de d�
 # API Django Authentification - `tests.py` <a name="API_tests.py"></a>
 
 Le fichier "tests.py" contient une suite de tests unitaires pour les vues associées aux modèles de l'application Django. Ces tests sont écrits à l'aide du module Django TestCase et visent à assurer le bon fonctionnement des fonctionnalités CRUD (Create, Read, Update, Delete) pour le modèle "Flux" ainsi que d'autres modèles associés.
+
+![Tests_avec_authentification](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Tests_avec_authentification.png)<br>
 
 ## Structure des Tests
 

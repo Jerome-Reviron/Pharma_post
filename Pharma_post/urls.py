@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from api import urls as api_urls
 from app.views import index
+from app.views import lecteur_mp3
 from app.views import ETL_ODS_Flux
 from app.views import ETL_DWH_D_DATE
 from app.views import ETL_DWH_D_LOCATION
@@ -30,6 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(api_urls)),
     path('', index),
+    path('lecteur_mp3/', lecteur_mp3),
     path('ETL_ODS_Flux/', ETL_ODS_Flux),
     path('ETL_DWH_D_DATE/', ETL_DWH_D_DATE),
     path('ETL_DWH_D_LOCATION/', ETL_DWH_D_LOCATION),

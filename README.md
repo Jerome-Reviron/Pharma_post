@@ -162,6 +162,8 @@ Le modèle `Flux` est utilisé dans l'application Django pour structurer les don
 
 # Vue Django - ETL_ODS_Flux <a name="views_ETL_ODS_Flux"></a> 
 
+![Views_ETL_ODS_Flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Views_ETL_ODS_Flux.png)<br>
+
 Le fichier `views.py` contient des fonctions de vue Django, dont la fonction principale est `ETL_ODS_Flux`. Cette fonction est responsable de l'extraction, de la transformation et du chargement (ETL) des données de flux dans le système Django. Voici une explication détaillée de chaque partie de la fonction :
 
 - **Extraction des Flux de la Base de Données :** La fonction commence par extraire tous les flux de la base de données Django à l'aide de la requête `Flux.objects.all()`.
@@ -336,6 +338,8 @@ Le modèle `F_FLUX` est utilisé dans le Data Warehouse pour organiser et repré
 
 Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_D_TYPE_VACCIN` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données des types de vaccins dans le système Django.
 
+![Views_ETL_DWH_D_TYPE_VACCIN](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Views_ETL_DWH_D_TYPE_VACCIN.png)<br>
+
 ### Introduction
 
 La fonction `ETL_DWH_D_TYPE_VACCIN` récupère tous les libellés de types de vaccins de la base de données Django, applique une pagination pour afficher un nombre limité de types de vaccins par page, puis rend la page `ETL_DWH_D_TYPE_VACCIN.html` avec le contexte contenant les types de vaccins paginés.
@@ -361,6 +365,8 @@ Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_D_
 # Vue Django - ETL_DWH_D_DATE <a name="views_ETL_DWH_D_DATE"></a>
 
 Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_D_DATE` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données des dates dans le système Django.
+
+![Views_ETL_DWH_D_DATE](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Views_ETL_DWH_D_DATE.png)<br>
 
 ### Introduction
 
@@ -388,6 +394,8 @@ Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_D_
 
 Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_D_LOCATION` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données de localisation dans le système Django.
 
+![Views_ETL_DWH_D_LOCATION](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Views_ETL_DWH_D_LOCATION.png)<br>
+
 ### Introduction
 
 La fonction `ETL_DWH_D_LOCATION` récupère toutes les localisations de la base de données Django, applique une pagination pour afficher un nombre limité de localisations par page, puis rend la page `ETL_DWH_D_LOCATION.html` avec le contexte contenant les localisations paginées.
@@ -413,6 +421,8 @@ Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_D_
 # Vue Django - ETL_DWH_F_FLUX <a name="views_ETL_DWH_F_FLUX"></a>
 
 Le fichier `views.py` contient des fonctions de vue Django, dont la fonction `ETL_DWH_F_FLUX` est responsable de l'Extraction, de la Transformation et du Chargement (ETL) des données des flux de vaccins dans le système Django.
+
+![Views_ETL_DWH_F_FLUX](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Views_ETL_DWH_F_FLUX.png)<br>
 
 ### Introduction
 

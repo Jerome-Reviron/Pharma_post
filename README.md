@@ -444,6 +444,8 @@ Aucune particularité spécifique n'est mentionnée pour la fonction `ETL_DWH_F_
 
 Le fichier `index.html` est la page d'accueil de l'application Pharma Post. Il sert de point d'entrée pour les utilisateurs et présente des informations essentielles sur le projet, ainsi que des fonctionnalités de navigation.
 
+![Page_index_site](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_index_site.png)<br>
+
 ### Caractéristiques Principales
 
 - **Langue :** Le document est rédigé en français (`lang="fr"`).
@@ -476,6 +478,8 @@ Le fichier `index.html` sert de point central pour l'expérience utilisateur sur
 
 Le fichier `ETL_DWH_F_FLUX.html` constitue l'interface utilisateur dédiée à la table de faits `F_FLUX` dans le système Pharma Post. Il offre une vue structurée et conviviale des données associées à cette table.
 
+![Page_ETL_ODS_Flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_ODS_Flux.png)<br>
+
 ### Caractéristiques Principales
 
 - **Langue :** Le document est rédigé en français (`lang="fr"`).
@@ -499,6 +503,14 @@ Cette interface facilite l'accès et la visualisation des données de la table d
 ### Remarque
 
 Le fichier `ETL_DWH_F_FLUX.html` suit la même structure que l'interface du fichier `ETL_ODS_Flux.html` du projet Pharma Post, assurant une cohérence dans la conception et la navigation. Pour maintenir cette uniformité, les fichiers `ETL_DWH_D_DATE.html`, `ETL_DWH_D_LOCATION.html`, et `ETL_DWH_D_TYPE_VACCIN.html` sont stylisés de manière similaire, en adaptant les noms de table et les colonnes en conséquence. Cela garantit une expérience utilisateur harmonieuse à travers les différentes tables de dimension.
+
+![Page_ETL_DWH_D_DATE](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_DATE.png)<br>
+
+![Page_ETL_DWH_D_LOCATION](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_LOCATION.png)<br>
+
+![Page_ETL_DWH_D_TYPE_VACCIN](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_TYPE_VACCIN.png)<br>
+
+![Page_ETL_DWH_F_FLUX](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_F_FLUX.png)<br>
 
 # Interface Web - CSS <a name="CSS"></a>
 

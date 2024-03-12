@@ -882,3 +882,156 @@ L'ensemble des tests de ce fichier s'adapte à chacune des classes correspondant
 ### Remarque
 - Les tests utilisent l'authentification forcée avec un utilisateur et un token, assurant ainsi que seuls les utilisateurs authentifiés peuvent accéder aux fonctionnalités CRUD.
 
+# Serveur Discord - `Guide` <a name="Guide"></a>
+
+Bienvenue dans ce guide de création du serveur Discord "Serveru Pharma Post" et de son bot "Docteur Bot Pharma". Suivez les étapes ci-dessous pour créer votre serveur et configurer le bot.
+
+![Server_Discord](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Server_Discord.png)<br>
+
+##  Création du `Serveur Pharma Post`
+
+#### Étapes :
+1. Ouvrez Discord et connectez-vous à votre compte.
+2. Cliquez sur le bouton "+" en bas de la barre latérale gauche.
+3. Sélectionnez "Créer un serveur".
+4. Choisissez un nom pour votre serveur, par exemple "Serveur Pharma Post".
+5. Sélectionnez une région pour votre serveur.
+6. Cliquez sur "Créer".
+
+## Inviter le Bot `Docteur Bot Pharma`
+
+#### Étapes :
+1. Accédez au portail des développeurs Discord.
+2. Cliquez sur "New Application" pour créer une nouvelle application.
+3. Donnez un nom à votre application, par exemple "Docteur Bot Pharma".
+4. Sous l'onglet "Bot", cliquez sur "Add Bot" pour créer un nouveau bot.
+5. Notez le token du bot, vous en aurez besoin pour l'inviter.
+6. Sous l'onglet "OAuth2", cochez la case "bot" dans les scopes et sélectionnez les permissions appropriées.
+7. Copiez le lien généré et ouvrez-le dans votre navigateur pour inviter le bot sur votre serveur.
+
+## Configuration du Serveur Discord
+
+#### Étapes :
+1. Accédez aux paramètres de votre serveur Discord en cliquant sur le nom de votre serveur en haut à gauche.
+2. Sous l'onglet "Roles", assurez-vous que le rôle "Administrateur" est créé avec toutes les permissions nécessaires.
+3. Sous l'onglet "Members", attribuez le rôle "Administrateur" au bot "Docteur Bot Pharma" pour lui donner toutes les permissions.
+
+## Configuration du script `Docteur_Bot_Pharma.py`
+
+![Script_bot_commandes](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Script_bot_commandes.png)<br>
+
+#### Plan Technique :
+
+1. **Importation des Modules :**
+   - Le bot utilise plusieurs modules Python, y compris discord, sqlite3, os, discord.ext.commands, gtts, et io.
+   - Ces modules sont nécessaires pour interagir avec l'API Discord, gérer la base de données SQLite, manipuler les fichiers et gérer les commandes du bot.
+
+2. **Connexion à Discord :**
+   - Le bot se connecte à Discord en utilisant le token fourni lors de la création de l'application sur le portail des développeurs Discord.
+
+3. **Définition des Commandes :**
+   - Les commandes sont définies à l'aide de la fonction @bot.command() suivie de la fonction correspondante.
+   - Chaque commande a une description détaillée de son fonctionnement.
+
+4. **Vérification du Propriétaire :**
+   - Certaines commandes nécessitent des autorisations spécifiques. La fonction isOwner() est utilisée pour vérifier si l'utilisateur exécutant la commande est le propriétaire autorisé.
+
+5. **Génération de la Synthèse Vocale :**
+   - Le bot peut générer une synthèse vocale à partir du texte fourni en utilisant le module gtts.
+   - Les messages textuels sont convertis en fichiers audio au format MP3.
+
+6. **Interaction avec la Base de Données :**
+   - Le bot interagit avec une base de données SQLite pour récupérer des données et effectuer des opérations telles que la récupération de la somme des doses de vaccin pour une localisation donnée.
+
+#### Fonctionnement :
+
+1. **Initialisation :**
+   - Le bot se connecte à Discord et est prêt à répondre aux commandes une fois lancé.
+
+2. **Réception des Commandes :**
+   - Le bot surveille les messages sur le serveur Discord et réagit aux commandes préfixées par !.
+
+3. **Traitement des Commandes :**
+   - Lorsqu'une commande est détectée, le bot exécute la fonction correspondante et répond sur le même canal Discord.
+
+4. **Interactions Utilisateur :**
+   - Certaines commandes nécessitent une interaction utilisateur supplémentaire, telles que la fourniture de la clé pour obtenir des informations spécifiques.
+
+5. **Traitement des Réponses :**
+   - Le bot traite les réponses de l'utilisateur et effectue les opérations nécessaires, telles que la récupération des données de la base de données ou la génération de fichiers audio.
+
+6. **Envoi des Réponses :**
+   - Une fois le traitement terminé, le bot envoie les réponses textuelles ou les fichiers audio générés sur le canal Discord approprié.
+
+7. **Gestion de la Déconnexion :**
+   - Le bot gère proprement sa déconnexion de Discord lorsque nécessaire, en fermant également la connexion à la base de données.
+
+## Commandes du Bot "Docteur Bot Pharma"
+
+![Docteur_Pharma_Bot](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Docteur_Pharma_Bot.png)<br>
+
+1. **Coucou**
+- Description : Envoie un message "Coucou".
+- Discord : `!coucou`
+
+2. **Informations sur le Serveur**
+- Description : Affiche les informations sur le serveur Discord, y compris le nombre de membres et de salons.
+- Discord : `!serverInfo`
+
+3. **Dire**
+- Description : Fait dire au bot un message dans le salon Discord.
+- Discord : `!say [texte]`
+
+4. **Effacer**
+- Description : Efface un nombre spécifié de messages dans le salon Discord.
+- Discord : `!clear [nombre]`
+
+5. **Bannir**
+- Description : Bannit un utilisateur du serveur Discord avec une raison spécifiée.
+- Discord : `!ban [@utilisateur] [raison]`
+
+6. **Kick**
+- Description : Expulse un utilisateur du serveur Discord avec une raison spécifiée.
+- Discord : `!kick [@utilisateur] [raison]`
+
+7. **Quoi de Neuf Docteur**
+- Description : Demande à l'utilisateur de renseigner une clé et répond avec la somme des doses correspondantes dans la table de fait.
+- Discord : `!quoi_de_neuf_docteur`
+
+8. **Le Bon Coin**
+- Description : Demande à l'utilisateur de renseigner un département et répond avec la somme des doses correspondantes pour ce département.
+- Discord : `!le_bon_coin`
+
+9. **En Terre Inconnue**
+- Description : Demande à l'utilisateur de renseigner une région et répond avec la somme des doses correspondantes pour cette région.
+- Discord : `!en_terre_inconnue`
+
+En suivant ces étapes, le bot "Docteur Bot Pharma" est capable d'interagir avec les utilisateurs sur le serveur Discord "Serveru Pharma Post" de manière efficace et réactive, offrant diverses fonctionnalités médicales et d'administration.
+
+# Interface UI `lecteur_mp3.html` <a name="lecteur_mp3"></a>
+
+Le fichier `lecteur.mp3.html` de votre projet représente une page web avec un lecteur audio et une interface utilisateur. Voici une description détaillée de son contenu :
+
+## Structure HTML
+- La balise `<head>` contient des méta-informations, des liens vers des feuilles de style externes, et le titre de la page.
+- La balise `<body>` contient la structure du lecteur audio avec une vidéo en arrière-plan.
+
+## Contenu du Lecteur Audio
+- Une vidéo en arrière-plan (`background-video`) est utilisée pour une expérience visuelle attrayante.
+- Un lecteur audio (`audio`) est intégré avec des contrôles de lecture (lecture, pause, avance rapide), un indicateur de progression et un contrôle de volume.
+
+## Utilisation de JavaScript
+- Un script JavaScript à la fin du fichier permet de gérer l'interaction avec le lecteur audio.
+- Les fonctionnalités incluent la lecture et la pause de l'audio, le contrôle du volume, l'affichage du temps écoulé et total, ainsi que la mise en sourdine.
+- Le script utilise également jQuery pour simplifier le processus de manipulation du DOM.
+
+## Fonctionnalités du Lecteur Audio
+- L'utilisateur peut contrôler la lecture de l'audio en cliquant sur le bouton de lecture/pause.
+- L'interface affiche le temps écoulé et total de l'audio, ainsi qu'un curseur de progression pour naviguer dans la piste.
+- L'utilisateur peut ajuster le volume à l'aide du curseur de volume.
+- Un bouton de mise en sourdine permet à l'utilisateur de couper le son rapidement.
+- L'interface réagit en conséquence aux actions de l'utilisateur pour une expérience fluide.
+
+Ce fichier offre une expérience utilisateur immersive en permettant à l'utilisateur d'écouter de l'audio tout en offrant des contrôles intuitifs et une interface visuellement attrayante.
+
+![Lecteur_mp3](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Lecteur_mp3.png)<br>

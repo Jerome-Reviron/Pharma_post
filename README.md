@@ -249,8 +249,6 @@ Des messages de progression sont affichés pendant l'insertion.<br>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données des types de vaccins dans le Data Warehouse (DWH). Ce modèle, appelé `D_TYPE_VACCIN`, est utilisé pour structurer les informations relatives aux différents types de vaccins.
 
-![Page_ETL_DWH_D_TYPE_VACCIN](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_TYPE_VACCIN.png)<br>
-
 ### Introduction
 
 Le modèle `D_TYPE_VACCIN` définit les types de vaccins dans le Data Warehouse. Chaque enregistrement représente un type de vaccin avec son libellé.
@@ -265,8 +263,6 @@ Le modèle `D_TYPE_VACCIN` définit les types de vaccins dans le Data Warehouse.
 Le modèle `D_TYPE_VACCIN` est utilisé dans le Data Warehouse pour organiser et représenter les informations sur les types de vaccins.
 
 # Modèle Django - D_DATE <a name="models_D_DATE"></a>
-
-![Page_ETL_DWH_D_DATE](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_DATE.png)<br>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données des dates de fin de semaine dans le Data Warehouse (DWH). Ce modèle, appelé `D_DATE`, est utilisé pour structurer les informations relatives aux différentes dates de fin de semaine.
 
@@ -286,8 +282,6 @@ Le modèle `D_DATE` est utilisé dans le Data Warehouse pour organiser et repré
 # Modèle Django - D_LOCATION <a name="models_D_LOCATION"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données de localisation dans le Data Warehouse (DWH). Ce modèle, appelé `D_LOCATION`, est utilisé pour structurer les informations relatives aux emplacements.
-
-![Page_ETL_DWH_D_LOCATION](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_D_LOCATION.png)<br>
 
 ### Introduction
 
@@ -311,8 +305,6 @@ Le modèle `D_LOCATION` est utilisé dans le Data Warehouse pour organiser et re
 # Modèle Django - F_FLUX <a name="models_F_FLUX"></a>
 
 Le fichier `models.py` contient la définition du modèle Django pour représenter les données des flux de vaccins dans le Data Warehouse (DWH). Ce modèle, appelé `F_FLUX`, est utilisé pour structurer les informations relatives aux flux de vaccins.
-
-![Page_ETL_DWH_F_FLUX](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_ETL_DWH_F_FLUX.png)<br>
 
 ### Introduction
 

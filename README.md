@@ -518,6 +518,11 @@ Le fichier `ETL_DWH_F_FLUX.html` suit la même structure que l'interface du fich
 
 ## Installation de Bootstrap dans un Projet Django
 
+![Page_index_no_connect](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_index_no_connect.png)<br>
+
+![Page_index_connect](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Page_index_connect.png)<br>
+
+
 ### Étape 1: Installation de Bootstrap
 
 Tout d'abord, ajoutez le lien vers la feuille de style Bootstrap dans votre fichier HTML. Vous pouvez le faire en ajoutant la ligne suivante dans la section `<head>` de votre fichier HTML.<br>

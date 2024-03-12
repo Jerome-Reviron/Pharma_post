@@ -37,20 +37,20 @@
 
 ## Introduction <a name="introduction"></a>
 Ce répertoire est conçu durant ma formation POEI Développeur Applicatif Python, afin d'intégrer l'entreprise Pharma Pilot à Cournond'Auvergne.<br>
-Accompagné par Human Booster et de nombreux intervenants, j'aurai à la suite de cette formation mon premier CDI de reconversion professionnelle Concepteur Développeur d'Applications.
+Accompagné par Human Booster et de nombreux intervenants, j'aurai à la suite de cette formation mon premier CDI de reconversion professionnelle Concepteur Développeur d'Applications et Développeur Applicatif Python.
 
 ## Installation <a name="installation"></a>
 Ce répertoire à été installé durant la formation sur mon compte github personnel et a une visibilité public à des fins de collaborations optimales avec les collaborateurs, intervenants et collègues.
 
 ## Utilisation <a name="utilisation"></a>
 Ce répertoire se dote d'un fichier "README.md" dans le but de proposer une explication de chaque code réalisé durant ce projet CAP ENTREPRISE.<br>
-On aura donc dans le sommaire l'ajout permanent des liens vers les différentes partie de ce projet et les mise à jour de ses programmes.<br>
+On aura donc dans le sommaire l'ajout permanent des liens vers les différentes parties de ce projet et les mise à jour de ses programmes.<br>
 Ce projet est la conclusion de 3 mois d'apprentissage, est sera présenté à l'ensemble des parties mercredi 13 mars.
 
 ## Contribuer <a name="contribuer"></a>
 Toutes personnes à une visibilité sur l'entièreté du répertoire. En revanche, aucune modification n'est possible.<br>
 Les véritables contributions se font lors de nos échanges en direct ou en visio, durant tout l'apprentissage de cet emploi.<br>
-De nombreux cours théoriques et pratiques sont réalisés pour consolider notre culture et employabilité.
+De nombreux cours théoriques et pratiques on été réalisés pour consolider notre culture et employabilité.
 
 ## Licence <a name="licence"></a>
 Tout droit réservé à moi même, Monsieur Reviron Jérôme.
@@ -94,12 +94,12 @@ Tout droit réservé à moi même, Monsieur Reviron Jérôme.
 
 ### Commande Docker
 
-1. docker-compose build
-2. docker-compose up
-3. python manage.py makemigrations
-4. python manage.py migrate
+1. `docker-compose build`
+2. `docker-compose up`
+3. `python manage.py makemigrations`
+4. `python manage.py migrate`
 
-### Création settings.py
+### Création `settings.py`
 
 ![settings_path](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_DIR.png)<br>
 ![settings_installed_app](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/settings_INSTALLED_APPS.png)<br>
@@ -116,30 +116,32 @@ Ce script Python réalise le processus d'Extraction, Transformation et Chargemen
 
 ### Étapes détaillées:
 
-1. Chargement du fichier CSV dans un DataFrame Pandas:
+1. **Chargement du fichier CSV dans un DataFrame Pandas:**
 Le script utilise la bibliothèque Pandas pour lire le fichier CSV (`flux-total-dep.csv`) dans un DataFrame appelé `df`. Il spécifie le délimiteur, l'encodage et demande de ne pas traiter les valeurs manquantes comme des NaN.<br>
 
-2. Troncature de la table `Flux`:
+2. **Troncature de la table `Flux`:**
 Toutes les entrées existantes dans la table `Flux` sont supprimées (tronquées) à l'aide de la méthode `delete()`.<br>
 
-3. Création des objets `Flux` à partir du DataFrame:
+3. **Création des objets `Flux` à partir du DataFrame:**
 Le script utilise une compréhension de liste avec `iterrows()` pour créer une liste d'objets `Flux`. Chaque ligne du DataFrame est convertie en un objet `Flux`.<br>
 
-4. Insertion en bloc des objets `Flux` dans la base de données:
+4. **Insertion en bloc des objets `Flux` dans la base de données:**
 La liste d'objets `Flux` est insérée en bloc dans la base de données à l'aide de la méthode `bulk_create()`.<br>
 
-5. Récupération des données après `bulk_create` dans un DataFrame:
+5. **Récupération des données après `bulk_create` dans un DataFrame:**
 Les données insérées dans la base de données sont récupérées dans un nouveau DataFrame Pandas appelé `df_Flux_apres_bulk_create` à l'aide de la méthode `from_records()`.<br>
 
-6. Affichage des résultats:
+6. **Affichage des résultats:**
 Le script affiche des messages indiquant le nombre de lignes chargées depuis le fichier CSV, le nombre d'objets `Flux` créés, et une confirmation de l'insertion des objets `Flux` dans la base de données.<br>
 
-7. Exécution du script:
+7. **Exécution du script:**
 Le script est exécuté si le fichier est lancé en tant que script principal (`__name__ == "__main__"`).<br>
 
 # Modèle Django - Flux <a name="models_Flux"></a> 
 
-Le fichier `models.py` contient la définition du modèle Django pour représenter les données d'un flux. Ce modèle, appelé `Flux`, est utilisé pour structurer les informations extraites du fichier "flux-total". Les attributs du modèle correspondent aux différentes données du flux, telles que le code de la région, le libellé de la région, le code du département, le libellé du département, la date de fin de la semaine, le type de vaccin, le nombre d'unités de consommation directe du vaccin et le nombre total de doses du vaccin.
+![Model_class_Flux](https://github.com/Jerome-Reviron/Pharma_post/blob/main/images_documentation/Model_class_Flux.png)<br>
+
+Le fichier `models.py` contient la définition du modèle Django pour représenter les données d'un flux. Ce modèle, appelé `Flux`, est utilisé pour structurer les informations extraites du fichier `flux-total-dep.csv`. Les attributs du modèle correspondent aux différentes données du flux, telles que le code de la région, le libellé de la région, le code du département, le libellé du département, la date de fin de la semaine, le type de vaccin, le nombre d'unités de consommation directe du vaccin et le nombre total de doses du vaccin.
 
 La méthode `__str__` du modèle est personnalisée pour renvoyer une représentation lisible du flux, comprenant le code de la région, le code du département et le type de vaccin.
 
@@ -153,11 +155,8 @@ La méthode `__str__` est implémentée pour fournir une représentation lisible
 
 ### Utilisations
 
-Le modèle `Flux` est utilisé dans l'application Django pour structurer les données extraites du fichier "flux-total". Il offre une représentation claire et organisée des flux, facilitant ainsi la manipulation et l'affichage de ces données.
+Le modèle `Flux` est utilisé dans l'application Django pour structurer les données extraites du fichier `flux-total-dep.csv`. Il offre une représentation claire et organisée des flux, facilitant ainsi la manipulation et l'affichage de ces données.
 
-## Particularités
-
-Aucune particularité spécifique n'est mentionnée pour le modèle `Flux` dans ce contexte.
 
 # Vue Django - ETL_ODS_Flux <a name="views_ETL_ODS_Flux"></a> 
 

@@ -30,6 +30,7 @@
 - [API Django Authentification - views_register.py](#API_views_register.py)
 - [API Django Authentification - register.html](#API_register.html)
 - [API Django Authentification - views_out.py](#API_views_out.py)
+- [API Django Authentification - tests.py](#API_tests.py)
 
 
 # API Django Authentification - `LoginSerializers` <a name="API_LoginSerializers"></a>
@@ -783,3 +784,43 @@ Après la déconnexion réussie, l'utilisateur est redirigé vers la page d'accu
 Note : Assurez-vous que l'URL '/' dans `return redirect('/')` correspond à l'URL de la page d'accueil de votre application Django.
 
 Cette classe peut être utilisée en conjonction avec un lien ou un bouton de déconnexion dans votre interface utilisateur pour permettre aux utilisateurs de se déconnecter de manière sécurisée.
+
+# API Django Authentification - `tests.py` <a name="API_tests.py"></a>
+
+Le fichier "tests.py" contient une suite de tests unitaires pour les vues associées aux modèles de l'application Django. Ces tests sont écrits à l'aide du module Django TestCase et visent à assurer le bon fonctionnement des fonctionnalités CRUD (Create, Read, Update, Delete) pour le modèle "Flux" ainsi que d'autres modèles associés.
+
+## Structure des Tests
+
+L'ensemble des tests de ce fichier s'adapte à chacune des classes correspondantes aux diférentes classes du fichiers `views.py` avec chacune 6 méthodes. Pour l'explication voici les tests sur la class `TestFlux` pour la class `Flux` du fichiers `views.py`.
+
+### Méthode `setUp`
+- Initialise les données nécessaires pour les tests, y compris une instance de l'APIRequestFactory, des vues associées aux modèles, et des instances de modèles pour effectuer les tests.
+
+### Tests CRUD
+1. **Test de récupération de la liste des flux**
+   - Vérifie si la requête GET renvoie une réponse HTTP 200.
+   - Vérifie si le nombre d'éléments retournés correspond au nombre d'objets Flux dans la base de données.
+
+2. **Test de récupération détaillée d'un flux**
+   - Vérifie si la requête GET renvoie une réponse HTTP 200.
+   - Vérifie si les détails du flux récupéré correspondent à ceux de l'objet Flux créé lors de la configuration.
+
+3. **Test de création d'un nouveau flux**
+   - Vérifie si la requête POST renvoie une réponse HTTP 201 après la création d'un nouveau flux.
+   - Vérifie si le nombre total d'objets Flux dans la base de données a augmenté.
+
+4. **Test de mise à jour d'un flux**
+   - Vérifie si la requête PUT renvoie une réponse HTTP 200 après la mise à jour d'un flux existant.
+   - Vérifie si les modifications apportées à l'objet Flux sont correctement enregistrées dans la base de données.
+
+5. **Test de mise à jour partielle d'un flux**
+   - Vérifie si la requête PATCH renvoie une réponse HTTP 200 après la mise à jour partielle d'un flux existant.
+   - Vérifie si les modifications partielles sont correctement enregistrées dans la base de données.
+
+6. **Test de suppression d'un flux**
+   - Vérifie si la requête DELETE renvoie une réponse HTTP 204 après la suppression d'un flux existant.
+   - Vérifie si l'objet Flux est effectivement supprimé de la base de données.
+
+### Remarque
+- Les tests utilisent l'authentification forcée avec un utilisateur et un token, assurant ainsi que seuls les utilisateurs authentifiés peuvent accéder aux fonctionnalités CRUD.
+
